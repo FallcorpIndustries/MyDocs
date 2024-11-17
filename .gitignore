@@ -1,1 +1,19 @@
+# Ignore Python cache files
+__pycache__/
+*.py[cod]
+
+# Ignore virtual environments
+venv/
+env/
+
+# Ignore build artifacts
+build/
+dist/
+
+# Ignore models directory
 models/
+
+# Ignore any log or temporary files
+*.log
+*.tmp
+
