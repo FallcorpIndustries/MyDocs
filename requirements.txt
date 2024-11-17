@@ -1,0 +1,14 @@
+soundfile
+pygame
+coqui-tts
+nltk
+pydub
+torch
+transformers
+pillow
+pytesseract
+pdf2image
+PyMuPDF
+python-docx
+inflect
+langdetect
