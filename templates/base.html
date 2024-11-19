@@ -1,0 +1,265 @@
+<!-- templates/base.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document Reader and Image Describer</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <!-- Bootstrap CSS for styling -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">DocReader</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('help_route') }}">Help</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('about_route') }}">About</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Flash Messages -->
+    <div class="container mt-3">
+        {% with messages = get_flashed_messages() %}
+          {% if messages %}
+            {% for message in messages %}
+              <div class="alert alert-info" role="alert">
+                {{ message }}
+              </div>
+              <!-- Trigger Audio Notification for Non-AJAX Actions -->
+              {% if message in notification_messages %}
+                {% if message not in ['analyzing_document', 'summarizing_document'] %}
+                  <audio id="{{ message }}_audio" src="{{ url_for('static', filename='audio/' + notification_messages[message]['filename']) }}"></audio>
+                  <script>
+                      document.getElementById('{{ message }}_audio').play().catch(function(error) {
+                          console.log('Audio play failed:', error);
+                      });
+                  </script>
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          {% endif %}
+        {% endwith %}
+    </div>
+
+    <!-- Main Content -->
+    <div class="container mt-4">
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Custom Scripts for Accessibility -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle Generate Audio forms with AJAX
+            const generateAudioForms = document.querySelectorAll('form.generate-audio-form');
+            generateAudioForms.forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent default form submission
+
+                    // Get the form action URL and method
+                    const url = form.action;
+                    const method = form.method.toUpperCase();
+
+                    // Debugging: Log form submission
+                    console.log('Submitting Generate Audio form:', url);
+
+                    // Play "analyzing_document.wav"
+                    var analyzingAudio = new Audio('{{ url_for("static", filename="audio/analyzing_document.wav") }}');
+                    analyzingAudio.play().catch(function(error) {
+                        console.log('analyzing_document.wav play failed:', error);
+                    });
+
+                    // Play waiting song
+                    var waitingSong = new Audio('{{ url_for("static", filename="audio/waiting_song.wav") }}');
+                    waitingSong.loop = true;
+                    waitingSong.play().then(() => {
+                        window.waitingSong = waitingSong;
+                        console.log('waiting_song.wav is playing');
+                    }).catch(function(error) {
+                        console.log('waiting_song.wav play failed:', error);
+                    });
+
+                    // Prepare the data to send
+                    const formData = new FormData(form);
+
+                    // Send AJAX request
+                    fetch(url, {
+                        method: method,
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Stop waiting song
+                        if (window.waitingSong) {
+                            window.waitingSong.pause();
+                            window.waitingSong.currentTime = 0;
+                            console.log('waiting_song.wav has stopped');
+                        }
+
+                        if (data.success) {
+                            // Play "analyzing_done.wav" based on the action
+                            let doneAudio;
+                            if (url.includes('generate_audio')) {
+                                doneAudio = new Audio('{{ url_for("static", filename="audio/analyzing_done.wav") }}');
+                            } else if (url.includes('summarize_document')) {
+                                doneAudio = new Audio('{{ url_for("static", filename="audio/summarizing_done.wav") }}');
+                            }
+
+                            if (doneAudio) {
+                                doneAudio.play().then(() => {
+                                    console.log('analyzing_done.wav is playing');
+                                    doneAudio.onended = () => {
+                                        // Reload the page after "analyzing_done.wav" finishes
+                                        console.log('Reloading the page now');
+                                        location.reload();
+                                    };
+                                }).catch(function(error) {
+                                    console.log('analyzing_done.wav play failed:', error);
+                                    // Reload the page even if "analyzing_done.wav" fails
+                                    location.reload();
+                                });
+                            } else {
+                                // If no doneAudio, reload immediately
+                                console.log('No doneAudio to play, reloading now');
+                                location.reload();
+                            }
+                        } else {
+                            // Handle errors (play error audio or alert)
+                            console.log('Error from server:', data.message);
+                            alert(data.message);
+                        }
+                    })
+                    .catch(error => {
+                        console.log('AJAX request failed:', error);
+                        // Stop waiting song
+                        if (window.waitingSong) {
+                            window.waitingSong.pause();
+                            window.waitingSong.currentTime = 0;
+                            console.log('waiting_song.wav has stopped due to error');
+                        }
+                        // Alert the user
+                        alert('An error occurred while generating audio.');
+                    });
+                });
+            });
+
+            // Handle Summarize forms with AJAX (similar approach if needed)
+            const summarizeForms = document.querySelectorAll('form.summarize-form');
+            summarizeForms.forEach(function(form) {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault(); // Prevent default form submission
+
+                    // Get the form action URL and method
+                    const url = form.action;
+                    const method = form.method.toUpperCase();
+
+                    // Debugging: Log form submission
+                    console.log('Submitting Summarize Document form:', url);
+
+                    // Play "summarizing_document.wav"
+                    var summarizingAudio = new Audio('{{ url_for("static", filename="audio/summarizing_document.wav") }}');
+                    summarizingAudio.play().catch(function(error) {
+                        console.log('summarizing_document.wav play failed:', error);
+                    });
+
+                    // Play waiting song
+                    var waitingSong = new Audio('{{ url_for("static", filename="audio/waiting_song.wav") }}');
+                    waitingSong.loop = true;
+                    waitingSong.play().then(() => {
+                        window.waitingSong = waitingSong;
+                        console.log('waiting_song.wav is playing');
+                    }).catch(function(error) {
+                        console.log('waiting_song.wav play failed:', error);
+                    });
+
+                    // Prepare the data to send
+                    const formData = new FormData(form);
+
+                    // Send AJAX request
+                    fetch(url, {
+                        method: method,
+                        body: formData,
+                        headers: {
+                            'X-Requested-With': 'XMLHttpRequest'
+                        }
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Stop waiting song
+                        if (window.waitingSong) {
+                            window.waitingSong.pause();
+                            window.waitingSong.currentTime = 0;
+                            console.log('waiting_song.wav has stopped');
+                        }
+
+                        if (data.success) {
+                            // Play "summarizing_done.wav" based on the action
+                            let doneAudio;
+                            if (url.includes('generate_audio')) {
+                                doneAudio = new Audio('{{ url_for("static", filename="audio/analyzing_done.wav") }}');
+                            } else if (url.includes('summarize_document')) {
+                                doneAudio = new Audio('{{ url_for("static", filename="audio/summarizing_done.wav") }}');
+                            }
+
+                            if (doneAudio) {
+                                doneAudio.play().then(() => {
+                                    console.log('summarizing_done.wav is playing');
+                                    doneAudio.onended = () => {
+                                        // Reload the page after "summarizing_done.wav" finishes
+                                        console.log('Reloading the page now');
+                                        location.reload();
+                                    };
+                                }).catch(function(error) {
+                                    console.log('summarizing_done.wav play failed:', error);
+                                    // Reload the page even if "summarizing_done.wav" fails
+                                    location.reload();
+                                });
+                            } else {
+                                // If no doneAudio, reload immediately
+                                console.log('No doneAudio to play, reloading now');
+                                location.reload();
+                            }
+                        } else {
+                            // Handle errors (play error audio or alert)
+                            console.log('Error from server:', data.message);
+                            alert(data.message)
+                        }
+                    })
+                    .catch(error => {
+                        console.log('AJAX request failed:', error);
+                        // Stop waiting song
+                        if (window.waitingSong) {
+                            window.waitingSong.pause();
+                            window.waitingSong.currentTime = 0;
+                            console.log('waiting_song.wav has stopped due to error');
+                        }
+                        // Alert the user
+                        alert('An error occurred while summarizing the document.');
+                    });
+                });
+            });
+        });
+    </script>
+
+    {% block scripts %}{% endblock %}
+</body>
+</html>

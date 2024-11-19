@@ -1,0 +1,73 @@
+<!-- templates/index.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Document Reader and Image Describer</h1>
+
+<!-- Upload Forms -->
+<div class="row mb-4">
+    <div class="col-md-6">
+        <h3>Upload Document</h3>
+        <form action="{{ url_for('upload_document') }}" method="post" enctype="multipart/form-data" class="upload-document-form">
+            <div class="mb-3">
+                <input class="form-control" type="file" name="document" accept=".txt,.pdf,.docx" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Upload Document</button>
+        </form>
+    </div>
+    <div class="col-md-6">
+        <h3>Upload Image</h3>
+        <form action="{{ url_for('upload_image') }}" method="post" enctype="multipart/form-data" class="upload-image-form">
+            <div class="mb-3">
+                <input class="form-control" type="file" name="image" accept=".png,.jpg,.jpeg,.bmp,.gif" required>
+            </div>
+            <button type="submit" class="btn btn-success">Upload Image</button>
+        </form>
+    </div>
+</div>
+
+<!-- History Section -->
+<h3>History</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Type</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in history %}
+        <tr>
+            <td>{{ item[0] }}</td>
+            <td>{{ item[2] }}</td>
+            <td>
+                {% if item[0] == 'Document' %}
+                    <form action="{{ url_for('summarize_document_route', index=loop.index0) }}" method="post" style="display:inline;" class="summarize-form">
+                        <button type="submit" class="btn btn-warning btn-sm">Summarize</button>
+                    </form>
+                    <form action="{{ url_for('generate_audio_route', index=loop.index0) }}" method="post" style="display:inline;" class="generate-audio-form" data-index="{{ loop.index0 }}">
+                        <button type="submit" class="btn btn-info btn-sm">Generate Audio</button>
+                    </form>
+                {% elif item[0] == 'Summary' %}
+                    <form action="{{ url_for('generate_audio_route', index=loop.index0) }}" method="post" style="display:inline;" class="generate-audio-form" data-index="{{ loop.index0 }}">
+                        <button type="submit" class="btn btn-info btn-sm">Play Summary</button>
+                    </form>
+                {% elif item[0] == 'Image' %}
+                    <!-- No actions for images currently -->
+                {% elif item[0] == 'Audio' %}
+                    <audio controls>
+                        <source src="{{ url_for('static', filename='audio/' + item[1]) }}" type="audio/wav">
+                        Your browser does not support the audio element.
+                    </audio>
+                {% endif %}
+                <form action="{{ url_for('delete_history_item', index=loop.index0) }}" method="post" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

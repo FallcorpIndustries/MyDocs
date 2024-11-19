@@ -1,0 +1,18 @@
+<!-- templates/help.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Help</h2>
+<p>Welcome to the Document Reader and Image Describer!</p>
+<h4>How to Use:</h4>
+<ul>
+    <li><strong>Upload Document:</strong> Click on the "Choose File" button under "Upload Document" to select a .txt, .pdf, or .docx file. Then click "Upload Document" to process it.</li>
+    <li><strong>Upload Image:</strong> Click on the "Choose File" button under "Upload Image" to select an image file. Supported formats are .png, .jpg, .jpeg, .bmp, and .gif. Then click "Upload Image" to process it.</li>
+    <li><strong>History:</strong> All your uploaded files and generated summaries/audio will appear in the History table.</li>
+    <li><strong>Summarize Document:</strong> Click the "Summarize" button next to a document in the History to generate a summary.</li>
+    <li><strong>Generate Audio:</strong> Click the "Generate Audio" button next to a document or summary to convert text to speech.</li>
+    <li><strong>Play Summary:</strong> If a summary has audio, click "Play Summary" to listen to it.</li>
+    <li><strong>Delete:</strong> Click "Delete" to remove an item from the history.</li>
+</ul>
+{% endblock %}
