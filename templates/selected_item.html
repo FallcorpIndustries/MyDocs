@@ -1,0 +1,61 @@
+<!-- templates/selected_item.html -->
+
+{% if latest_item[0] == 'Document' %}
+    <div class="card mb-3" aria-label="Selected Document">
+        <div class="card-body">
+            <h5 class="card-title">{{ latest_item[2] }}</h5>
+            <p class="card-text">{{ latest_item[1] }}</p>
+            <div class="mb-3">
+                <button class="btn btn-warning btn-sm me-2" onclick="submitForm('summarize_{{ loop.index0 }}')">Summarize</button>
+                <button class="btn btn-info btn-sm me-2" onclick="submitForm('generate_audio_{{ loop.index0 }}')">Generate Audio</button>
+                <button type="button" class="btn btn-secondary btn-sm read-document mt-2" data-index="{{ loop.index0 }}" aria-label="Read Document">
+                    Read Document
+                </button>
+            </div>
+            <!-- Hidden Forms for AJAX -->
+            <form id="summarize_{{ loop.index0 }}" action="{{ url_for('summarize_document_route', index=loop.index0) }}" method="post" class="d-none">
+            </form>
+            <form id="generate_audio_{{ loop.index0 }}" action="{{ url_for('generate_audio_route', index=loop.index0) }}" method="post" class="d-none">
+            </form>
+        </div>
+    </div>
+{% elif latest_item[0] == 'Summary' %}
+    <div class="card mb-3" aria-label="Selected Summary">
+        <div class="card-body">
+            <h5 class="card-title">Summary of {{ latest_item[2] }}</h5>
+            <p class="card-text">{{ latest_item[1] }}</p>
+            <div class="mb-3">
+                <button class="btn btn-info btn-sm me-2" onclick="submitForm('generate_audio_{{ loop.index0 }}')">Play Summary</button>
+                <button type="button" class="btn btn-secondary btn-sm read-summary mt-2" data-index="{{ loop.index0 }}" aria-label="Read Summary">
+                    Read Summary
+                </button>
+            </div>
+            <!-- Hidden Forms for AJAX -->
+            <form id="generate_audio_{{ loop.index0 }}" action="{{ url_for('generate_audio_route', index=loop.index0) }}" method="post" class="d-none">
+            </form>
+        </div>
+    </div>
+{% elif latest_item[0] == 'Image' %}
+    <div class="card mb-3" aria-label="Image Description">
+        <div class="card-body">
+            <h5 class="card-title">{{ latest_item[2] }}</h5>
+            <img src="{{ url_for('static', filename='images/' + latest_item[2]) }}" alt="Uploaded Image: {{ latest_item[2] }}" class="img-fluid mb-3">
+            <p class="card-text">{{ latest_item[1] }}</p>
+            <div class="mb-3">
+                <button class="btn btn-info btn-sm me-2" onclick="playAudio('{{ history[-1][1] }}')">Play Description Audio</button>
+            </div>
+        </div>
+    </div>
+{% elif latest_item[0] == 'Audio' %}
+    <div class="card mb-3" aria-label="Audio Playback">
+        <div class="card-body">
+            <h5 class="card-title">{{ latest_item[2] }}</h5>
+            <audio controls>
+                <source src="{{ url_for('static', filename='audio/' + latest_item[1]) }}" type="audio/wav">
+                Your browser does not support the audio element.
+            </audio>
+        </div>
+    </div>
+{% else %}
+    <p>Unsupported item type.</p>
+{% endif %}

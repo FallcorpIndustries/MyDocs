@@ -1,17 +1,135 @@
 /* static/css/styles.css */
 
+/* General Styles */
 body {
     background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
 }
 
-h1, h2, h3, h4 {
-    color: #343a40;
-}
-
-.table {
+/* Sidebar Styles */
+.sidebar {
     background-color: #ffffff;
+    border-right: 1px solid #dee2e6;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+    padding-top: 20px;
 }
 
-.alert {
-    margin-top: 20px;
+.sidebar h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+#history-list {
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.history-item {
+    cursor: pointer;
+}
+
+.history-item:hover {
+    background-color: #e7f1ff; /* Light blue on hover */
+}
+
+.history-item.selected {
+    background-color: #cce4ff; /* Darker blue when selected */
+    border-left: 4px solid #007bff; /* Blue left border */
+}
+
+/* Main Content Styles */
+.main-content {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.card-text {
+    font-size: 1rem;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 767.98px) {
+    .sidebar {
+        height: auto;
+        position: relative;
+        border-right: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+}
+
+/* Button Styles */
+.btn-info {
+    background-color: #17a2b8;
+    border-color: #17a2b8;
+}
+
+.btn-info:hover {
+    background-color: #138496;
+    border-color: #117a8b;
+}
+
+.btn-warning {
+    background-color: #ffc107;
+    border-color: #ffc107;
+}
+
+.btn-warning:hover {
+    background-color: #e0a800;
+    border-color: #d39e00;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+    border-color: #bd2130;
+}
+
+.btn-primary {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.btn-primary:hover {
+    background-color: #0b5ed7;
+    border-color: #0a58ca;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+    border-color: #545b62;
+}
+
+/* Accessibility Enhancements */
+button:focus, input:focus, select:focus, textarea:focus, .history-item:focus {
+    outline: 2px dashed #333333;
+    outline-offset: 2px;
+}
+
+/* Audio Player Styles */
+audio {
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Card Image Styles */
+.card img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
 }

@@ -4,9 +4,7 @@ import os
 import uuid
 import json
 import hashlib
-import re
-import unicodedata
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory, jsonify, flash
+from flask import Flask, render_template, request, redirect, url_for, jsonify, flash
 from werkzeug.utils import secure_filename
 from langdetect import detect
 from pydub import AudioSegment
@@ -21,8 +19,10 @@ import inflect
 import pytesseract
 from PIL import Image
 import numpy as np
+import re
+import unicodedata
 
-# Explicitly set the environment variable TOKENIZERS_PARALLELISM to false
+# Set environment variable
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
 # Initialize NLTK
@@ -30,7 +30,7 @@ nltk.download('punkt')
 
 # Initialize Flask app
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'  # Replace with a secure key
+app.secret_key = 'your_secure_secret_key'  # Replace with a secure key in production
 
 # Configuration
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
@@ -41,9 +41,6 @@ AUDIO_FOLDER = os.path.join(BASE_DIR, 'static', 'audio')
 SUMMARIES_FOLDER = os.path.join(BASE_DIR, 'summaries')
 HISTORY_FILE = os.path.join(BASE_DIR, 'history.json')
 
-
-
-
 # Create necessary directories
 os.makedirs(DOCUMENTS_FOLDER, exist_ok=True)
 os.makedirs(IMAGES_FOLDER, exist_ok=True)
@@ -53,13 +50,14 @@ os.makedirs(SUMMARIES_FOLDER, exist_ok=True)
 # Set up TTS models
 print("Loading TTS models...")
 tts_en = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=False)
-tts_fr = TTS(model_name="tts_models/fr/mai/tacotron2-DDC", progress_bar=False, gpu=False)
+tts_fr = TTS(model_name="tts_models/fr/css10/vits", progress_bar=False, gpu=False)
 loaded_models = {"en": tts_en, "fr": tts_fr}
 
 # Default speakers
 default_speakers = {
     "en": "p225",  # Replace with your preferred speaker ID from tts_en.speakers
-    # 'fr' is single-speaker
+    #"fr": "p225",
+    #'fr' is single-speaker
 }
 
 # Load the BLIP image captioning model and processor
@@ -107,7 +105,21 @@ notification_messages = {
         "text": "Item deleted successfully",
         "filename": "item_deleted.wav",
         "language": "en"
+    },
+    # New notification message for audio generation
+    "audio_generated": {
+        "text": "Audio generated successfully",
+        "filename": "audio_generated.wav",
+        "language": "en"
+    },
+    # Optional: Error notification
+    "error_notification": {
+        "text": "An error occurred during audio generation",
+        "filename": "error_notification.wav",
+        "language": "en"
     }
+
+
 }
 
 def generate_notification_audios():
@@ -384,7 +396,7 @@ def generate_image_description(image_path):
         print(f"Error generating image description: {e}")
         return "Failed to generate image description."
 
-def generate_audio(text, language="en"):
+def generate_audio_file(text, language="en"):
     """
     Generates an audio file from text using the specified language TTS model.
 
@@ -417,8 +429,8 @@ def generate_audio(text, language="en"):
             if isinstance(wav, list) or isinstance(wav, np.ndarray):
                 # Assuming wav is a float32 numpy array in range [-1, 1]
                 wav = np.array(wav)
-                wav = np.clip(wav, -1.0, 1.0)  # Ensure values are in [-1, 1]
-                wav = (wav * 32767).astype(np.int16)  # Convert to int16
+                wav = np.clip(wav, -1.0, 1.0)
+                wav = (wav * 32767).astype(np.int16)
                 wav_bytes = wav.tobytes()
             elif isinstance(wav, torch.Tensor):
                 wav = wav.cpu().numpy()
@@ -477,12 +489,22 @@ def load_history():
 
 def save_history(history):
     with open(HISTORY_FILE, 'w') as f:
-        json.dump(history, f)
+        json.dump(history, f, indent=4)
 
-def get_file_id(file_path):
-    # Use the absolute path to generate a unique hash
-    abs_path = os.path.abspath(file_path)
-    return hashlib.md5(abs_path.encode('utf-8')).hexdigest()
+# Define allowed file types
+def allowed_file(filename, filetype):
+    if filetype == 'document':
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'txt', 'pdf', 'docx'}
+    elif filetype == 'image':
+        return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'bmp', 'gif'}
+    return False
+
+# Language detection
+def detect_language(text):
+    try:
+        return detect(text)
+    except Exception:
+        return "en"  # Default to English if detection fails
 
 # Routes
 
@@ -518,7 +540,13 @@ def upload_document():
 
         # Add to history
         history = load_history()
-        history.append(['Document', text, filename])
+        new_document = {
+            "type": "Document",
+            "text": text,
+            "filename": filename,
+            "audios": []
+        }
+        history.append(new_document)
         save_history(history)
 
         # Flash "item_added" message
@@ -546,9 +574,26 @@ def upload_image():
         # Generate image description
         description = generate_image_description(file_path)
 
+        # Generate audio for the description
+        language = detect_language(description)
+        description_audio_filename = generate_audio_file(description, language)
+
         # Add to history
         history = load_history()
-        history.append(['Image', description, filename])
+        new_image = {
+            "type": "Image",
+            "description": description,
+            "filename": filename,
+            "audios": []
+        }
+        if description_audio_filename:
+            description_audio = {
+                "type": "Audio",
+                "filename": description_audio_filename,
+                "description": f"Audio of Description of {filename}"
+            }
+            new_image["audios"].append(description_audio)
+        history.append(new_image)
         save_history(history)
 
         # Flash "item_added" message
@@ -563,127 +608,164 @@ def upload_image():
 def summarize_document_route(index):
     history = load_history()
     if index < 0 or index >= len(history):
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'success': False, 'message': 'Invalid history index.'}), 400
-        else:
-            flash('Invalid history index.')
-            return redirect(url_for('index'))
+        flash('Invalid history index.')
+        return redirect(url_for('index'))
     item = history[index]
-    if item[0] != 'Document':
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'success': False, 'message': 'Selected item is not a document.'}), 400
-        else:
-            flash('Selected item is not a document.')
-            return redirect(url_for('index'))
-    text = item[1]
+    if item["type"] != "Document":
+        flash('Selected item is not a document.')
+        return redirect(url_for('index'))
+    text = item["text"]
     if not text:
-        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-            return jsonify({'success': False, 'message': 'No text available to summarize.'}), 400
-        else:
-            flash('No text available to summarize.')
-            return redirect(url_for('index'))
+        flash('No text available to summarize.')
+        return redirect(url_for('index'))
     
-    # Check if request is AJAX
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        # Handle AJAX request
-        summary = summarize_text(text)
-        if summary:
-            summary_filename = save_summary(summary)
-            history.append(['Summary', summary, f"Summary of {item[2]}"])
+    summary = summarize_text(text)
+    if summary:
+        summary_filename = save_summary(summary)
+        
+        # Generate audio for the summary
+        language = detect_language(summary)
+        summary_audio_filename = generate_audio_file(summary, language)
+        if summary_audio_filename:
+            summary_audio = {
+                "type": "Audio",
+                "filename": summary_audio_filename,
+                "description": f"Audio of Summary of {item['filename']}"
+            }
+            item["audios"].append(summary_audio)
             save_history(history)
-
-            return jsonify({'success': True, 'message': 'Summarization completed successfully.'}), 200
+            flash('summarizing_done')
         else:
-            return jsonify({'success': False, 'message': 'Failed to generate summary.'}), 500
+            flash('Failed to generate audio for the summary.')
+
+        return redirect(url_for('index'))
     else:
-        # Handle non-AJAX request
-        # Flash "summarizing_document" message
-        flash('summarizing_document')
-
-        summary = summarize_text(text)
-        if summary:
-            summary_filename = save_summary(summary)
-            history.append(['Summary', summary, f"Summary of {item[2]}"])
-            save_history(history)
-
-            # Flash "summarizing_done" and "item_added" messages
-            flash('summarizing_done')
-            flash('item_added')
-
-            flash('Summarization completed successfully.')
-        else:
-            flash('Failed to generate summary.')
-            flash('summarizing_done')
-
+        flash('Failed to generate summary.')
         return redirect(url_for('index'))
 
 @app.route('/generate_audio/<int:index>', methods=['POST'])
 def generate_audio_route(index):
     history = load_history()
     if index < 0 or index >= len(history):
+        flash('Invalid history index.')
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'success': False, 'message': 'Invalid history index.'}), 400
-        else:
-            flash('Invalid history index.')
-            return redirect(url_for('index'))
+        return redirect(url_for('index'))
+    
     item = history[index]
-    if item[0] not in ['Document', 'Summary']:
+    if item["type"] not in ["Document", "Summary"]:
+        flash('Selected item cannot be converted to audio.')
         if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'success': False, 'message': 'Selected item cannot be converted to audio.'}), 400
-        else:
-            flash('Selected item cannot be converted to audio.')
-            return redirect(url_for('index'))
-    text = item[1]
+        return redirect(url_for('index'))
+    
+    text = item["text"] if item["type"] == "Document" else item.get("description", "")
     language = detect_language(text)
     print(f"Detected language: {language}")
     print(f"Text to convert to audio: {text}")
+    
+    # Optionally, flash 'waiting_process' if needed for non-AJAX requests
+    # flash('waiting_process')
+    
+    try:
+        audio_filename = generate_audio_file(text, language)
+    except Exception as e:
+        print(f"Error during audio generation: {e}") 
+        flash('error_notification')  # Flash error notification
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'message': 'Error during audio generation.'}), 500
+    
+    if audio_filename:
+        # Add audio filename to history
+        audio_entry = {
+            "type": "Audio",
+            "filename": audio_filename,
+            "description": f"Audio of {item['filename']}"
+        }
+        item["audios"].append(audio_entry)
+        save_history(history)
 
-    # Check if request is AJAX
-    if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
-        # Handle AJAX request
-        audio_filename = generate_audio(text, language)
-        if audio_filename:
-            # Add audio filename to history
-            history.append(['Audio', audio_filename, f"Audio of {item[2]}"])
-            save_history(history)
+        # Flash 'audio_generated' message
+        flash('audio_generated')  # Correct flash message
 
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
             return jsonify({'success': True, 'message': 'Audio generated successfully.'}), 200
-        else:
-            return jsonify({'success': False, 'message': 'Failed to generate audio.'}), 500
+
+        return redirect(url_for('index'))
     else:
-        # Handle non-AJAX request
-        # Flash "analyzing_document" message
-        flash('analyzing_document')
+        flash('Failed to generate audio.')
+        if request.headers.get('X-Requested-With') == 'XMLHttpRequest':
+            return jsonify({'success': False, 'message': 'Failed to generate audio.'}), 500
+        return redirect(url_for('index'))
 
-        audio_filename = generate_audio(text, language)
-        if audio_filename:
-            # Add audio filename to history
-            history.append(['Audio', audio_filename, f"Audio of {item[2]}"])
-            save_history(history)
+@app.route('/read_document/<int:index>', methods=['POST'])
+def read_document_route(index):
+    """
+    Endpoint to generate audio for a specific document to read it back.
+    """
+    history = load_history()
+    if index < 0 or index >= len(history):
+        return jsonify({'success': False, 'message': 'Invalid history index.'}), 400
+    item = history[index]
+    if item["type"] != "Document":
+        return jsonify({'success': False, 'message': 'Selected item is not a document.'}), 400
+    text = item["text"]
+    language = detect_language(text)
+    audio_filename = generate_audio_file(text, language)
+    if audio_filename:
+        # Add audio filename to history
+        audio_entry = {
+            "type": "Audio",
+            "filename": audio_filename,
+            "description": f"Audio of {item['filename']}"
+        }
+        item["audios"].append(audio_entry)
+        save_history(history)
+        return jsonify({'success': True, 'message': 'Document audio generated successfully.'}), 200
+    else:
+        return jsonify({'success': False, 'message': 'Failed to generate audio for document.'}), 500
 
-            # Flash "analyzing_done" and "item_added" messages
-            flash('analyzing_done')
-            flash('item_added')
+@app.route('/read_summary/<int:index>', methods=['POST'])
+def read_summary_route(index):
+    """
+    Endpoint to generate audio for a specific summary to read it back.
+    """
+    history = load_history()
+    if index < 0 or index >= len(history):
+        return jsonify({'success': False, 'message': 'Invalid history index.'}), 400
+    item = history[index]
+    if item["type"] != "Summary":
+        return jsonify({'success': False, 'message': 'Selected item is not a summary.'}), 400
+    text = item["text"]
+    language = detect_language(text)
+    audio_filename = generate_audio_file(text, language)
+    if audio_filename:
+        # Add audio filename to history
+        audio_entry = {
+            "type": "Audio",
+            "filename": audio_filename,
+            "description": f"Audio of Summary of {item['filename']}"
+        }
+        item["audios"].append(audio_entry)
+        save_history(history)
+        return jsonify({'success': True, 'audio_filename': audio_filename, 'message': 'Summary audio generated successfully.'}), 200
+    else:
+        return jsonify({'success': False, 'message': 'Failed to generate audio for summary.'}), 500
 
-            flash('Audio generated successfully.')
-            return redirect(url_for('index'))
-        else:
-            flash('Failed to generate audio.')
-            flash('analyzing_done')
-            return redirect(url_for('index'))
+# app.py
 
 @app.route('/delete_history_item/<int:index>', methods=['POST'])
 def delete_history_item(index):
     history = load_history()
     if index < 0 or index >= len(history):
-        flash('Invalid history index.')
+        flash('invalid_index')  # Use a key that maps to a specific message and audio
         return redirect(url_for('index'))
     item = history.pop(index)
     save_history(history)
 
     # Delete associated files
-    if item[0] == 'Summary':
-        summary_text = item[1]
+    if item["type"] == "Summary":
+        summary_text = item["text"]
         # Find and delete the summary file
         for summary_file in os.listdir(SUMMARIES_FOLDER):
             summary_path = os.path.join(SUMMARIES_FOLDER, summary_file)
@@ -692,28 +774,26 @@ def delete_history_item(index):
                 if content == summary_text:
                     os.remove(summary_path)
                     break
-    elif item[0] == 'Document':
-        # Delete cached audio file
-        file_id = get_file_id(item[1])
-        audio_file_path = os.path.join(AUDIO_FOLDER, f"{file_id}.wav")
-        if os.path.exists(audio_file_path):
-            os.remove(audio_file_path)
-    elif item[0] == 'Image':
+    elif item["type"] == "Document":
+        # Optionally, delete associated audio files if linked
+        pass  # Implement if necessary
+    elif item["type"] == "Image":
         # Delete the image file
-        image_path = os.path.join(IMAGES_FOLDER, item[2])
+        image_path = os.path.join(IMAGES_FOLDER, item["filename"])
         if os.path.exists(image_path):
             os.remove(image_path)
-    elif item[0] == 'Audio':
+    elif item["type"] == "Audio":
         # Delete the audio file
-        audio_path = os.path.join(AUDIO_FOLDER, item[1])
+        audio_path = os.path.join(AUDIO_FOLDER, item["filename"])
         if os.path.exists(audio_path):
             os.remove(audio_path)
 
-    # Flash "item_deleted" message
-    flash('item_deleted')
+    # Flash a single "item_deleted" message
+    flash('item_deleted')  # This key will map to both message text and audio
 
-    flash('History item deleted successfully.')
     return redirect(url_for('index'))
+
+
 
 @app.route('/help')
 def help_route():
@@ -722,21 +802,6 @@ def help_route():
 @app.route('/about')
 def about_route():
     return render_template('about.html')
-
-# Utility Functions
-
-def allowed_file(filename, filetype):
-    if filetype == 'document':
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'txt', 'pdf', 'docx'}
-    elif filetype == 'image':
-        return '.' in filename and filename.rsplit('.', 1)[1].lower() in {'png', 'jpg', 'jpeg', 'bmp', 'gif'}
-    return False
-
-def detect_language(text):
-    try:
-        return detect(text)
-    except Exception:
-        return "en"  # Default to English if detection fails
 
 # Run the app
 if __name__ == '__main__':
