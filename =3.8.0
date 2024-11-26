@@ -1,0 +1,6 @@
+Collecting pypdf
+  Downloading pypdf-5.1.0-py3-none-any.whl.metadata (7.2 kB)
+Requirement already satisfied: typing_extensions>=4.0 in /home/maf/p39/lib/python3.9/site-packages (from pypdf) (4.12.2)
+Downloading pypdf-5.1.0-py3-none-any.whl (297 kB)
+Installing collected packages: pypdf
+Successfully installed pypdf-5.1.0

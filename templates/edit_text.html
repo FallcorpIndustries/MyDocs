@@ -1,0 +1,18 @@
+<!-- templates/edit_text.html -->
+
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Edit Text</h2>
+    <form method="POST" aria-label="Edit Text Form">
+        {{ form.hidden_tag() }}
+        <div class="mb-3">
+            {{ form.text.label(class="form-label") }}
+            {{ form.text(class="form-control", rows="10") }}
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <a href="{{ url_for('index') }}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+{% endblock %}

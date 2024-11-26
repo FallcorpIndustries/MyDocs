@@ -38,19 +38,24 @@
             <div class="list-group">
                 {% for item in history %}
                     {% if item.type == 'Document' %}
-                        <div class="list-group-item uploaded-item" data-index="{{ loop.index0 }}" tabindex="0" aria-label="Uploaded Document">
+                        <div class="list-group-item uploaded-item" data-index="{{ item.id }}" tabindex="0" aria-label="Uploaded Document">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Document: {{ item.filename }}</h5>
                                 <div>
-                                    <!-- Assign a unique ID to audio container for each item -->
-                                    <div id="audio-container-{{ loop.index0 }}" class="d-inline"></div>
-                                    <form action="{{ url_for('summarize_document_route', index=loop.index0) }}" method="post" class="d-inline summarize-document-form" aria-label="Summarize Document">
-                                        <button type="submit" class="btn btn-warning btn-sm me-2" aria-label="Summarize Document">Summarize</button>
+                                    <a href="{{ url_for('edit_text', item_id=item.id) }}" class="btn btn-secondary btn-sm me-2" aria-label="Edit Text">Edit Text</a>
+                                    <form action="{{ url_for('summarize_document_route', item_id=item.id) }}" method="post" class="d-inline ajax-form" aria-label="Summarize Document">
+                                        <button type="submit" class="btn btn-warning btn-sm me-2">Summarize</button>
                                     </form>
-                                    <form action="{{ url_for('generate_audio_route', index=loop.index0) }}" method="post" class="d-inline generate-audio-form" aria-label="Generate Audio for Document">
-                                        <button type="submit" class="btn btn-info btn-sm me-2" aria-label="Generate Audio for Document">Generate Audio</button>
+                                    <form action="{{ url_for('generate_audio_route', item_id=item.id) }}" method="post" class="d-inline ajax-form" aria-label="Generate Audio for Document">
+                                        <button type="submit" class="btn btn-info btn-sm me-2">Generate Audio</button>
                                     </form>
-                                    <form action="{{ url_for('delete_history_item', index=loop.index0) }}" method="post" class="d-inline">
+                                    {% if item.needs_signature %}
+                                        <a href="{{ url_for('voice_sign_document', item_id=item.id) }}" class="btn btn-success btn-sm me-2" aria-label="Voice Sign Document">Sign Document</a>
+                                    {% endif %}
+                                    {% if item.signed %}
+                                        <a href="{{ url_for('download_signed_document', item_id=item.id) }}" class="btn btn-outline-primary btn-sm me-2" aria-label="Download Signed Document">Download Signed Document</a>
+                                    {% endif %}
+                                    <form action="{{ url_for('delete_history_item', item_id=item.id) }}" method="post" class="d-inline">
                                         <button type="submit" class="btn btn-danger btn-sm" aria-label="Delete Document">Delete</button>
                                     </form>
                                 </div>
@@ -65,7 +70,6 @@
                                                     <source src="{{ url_for('static', filename='audio/' + audio.filename) }}" type="audio/wav">
                                                     Your browser does not support the audio element.
                                                 </audio>
-                                                
                                             </li>
                                         {% endfor %}
                                     </ul>
@@ -73,11 +77,14 @@
                             {% endif %}
                         </div>
                     {% elif item.type == 'Image' %}
-                        <div class="list-group-item uploaded-item" data-index="{{ loop.index0 }}" tabindex="0" aria-label="Uploaded Image">
+                        <div class="list-group-item uploaded-item" data-index="{{ item.id }}" tabindex="0" aria-label="Uploaded Image">
                             <div class="d-flex w-100 justify-content-between">
                                 <h5 class="mb-1">Image: {{ item.filename }}</h5>
                                 <div>
-                                    <form action="{{ url_for('delete_history_item', index=loop.index0) }}" method="post" class="d-inline">
+                                    <form action="{{ url_for('generate_audio_route', item_id=item.id) }}" method="post" class="d-inline ajax-form" aria-label="Generate Audio for Image">
+                                        <button type="submit" class="btn btn-info btn-sm me-2">Generate Audio</button>
+                                    </form>
+                                    <form action="{{ url_for('delete_history_item', item_id=item.id) }}" method="post" class="d-inline">
                                         <button type="submit" class="btn btn-danger btn-sm" aria-label="Delete Image">Delete</button>
                                     </form>
                                 </div>
@@ -94,9 +101,36 @@
                                                     <source src="{{ url_for('static', filename='audio/' + audio.filename) }}" type="audio/wav">
                                                     Your browser does not support the audio element.
                                                 </audio>
-                                                <form action="{{ url_for('delete_history_item', index=loop.index0) }}" method="post" class="d-inline">
-                                                    <button type="submit" class="btn btn-danger btn-sm mt-2" aria-label="Delete Audio">Delete Audio</button>
-                                                </form>
+                                            </li>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                        </div>
+                    {% elif item.type == 'Summary' %}
+                        <div class="list-group-item uploaded-item" data-index="{{ item.id }}" tabindex="0" aria-label="Summary">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">Summary: {{ item.description }}</h5>
+                                <div>
+                                    <form action="{{ url_for('generate_audio_route', item_id=item.id) }}" method="post" class="d-inline ajax-form" aria-label="Generate Audio for Summary">
+                                        <button type="submit" class="btn btn-info btn-sm me-2">Generate Audio</button>
+                                    </form>
+                                    <form action="{{ url_for('delete_history_item', item_id=item.id) }}" method="post" class="d-inline">
+                                        <button type="submit" class="btn btn-danger btn-sm" aria-label="Delete Summary">Delete</button>
+                                    </form>
+                                </div>
+                            </div>
+                            <p>{{ item.text }}</p>
+                            {% if item.audios %}
+                                <div class="mt-3">
+                                    <ul class="list-group">
+                                        {% for audio in item.audios %}
+                                            <li class="list-group-item">
+                                                {{ audio.description }}
+                                                <audio controls class="mt-2 w-100">
+                                                    <source src="{{ url_for('static', filename='audio/' + audio.filename) }}" type="audio/wav">
+                                                    Your browser does not support the audio element.
+                                                </audio>
                                             </li>
                                         {% endfor %}
                                     </ul>

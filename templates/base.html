@@ -13,6 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 </head>
 <body>
+    <!-- Skip to Main Content Link -->
+    <a href="#mainContent" class="visually-hidden-focusable">Skip to main content</a>
+
     <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main Navigation">
         <div class="container-fluid">
@@ -23,6 +26,11 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="{{ url_for('help_route') }}">Help</a>
                     </li>
@@ -34,13 +42,6 @@
         </div>
     </nav>
 
-    <!-- Informational Alert for Audio Playback -->
-    <div class="container mt-3">
-        <div class="alert alert-warning" role="alert">
-            Note: To hear audio notifications, please ensure your browser allows audio playback.
-        </div>
-    </div>
-
     <!-- Flash Messages with Audio Notifications -->
     <div class="container mt-3">
         {% with messages = get_flashed_messages() %}
@@ -49,33 +50,15 @@
                     <div class="alert alert-info" role="alert">
                         {{ notification_messages[message]['text'] if message in notification_messages else message }}
                     </div>
-                    <!-- Trigger Audio Notification for Specific Messages -->
                     {% if message in notification_messages %}
-                        <!-- Assign a specific class to notification audios -->
                         <audio class="notification-audio" id="{{ message }}_audio" src="{{ url_for('static', filename='audio/' + notification_messages[message]['filename']) }}" preload="none"></audio>
-                        <!-- Optional: Manual Play Button for User-Controlled Playback -->
-                        
-                        <!-- Removed/Commented Out Automatic Play Script -->
-                        <!--
-                        <script>
-                            document.addEventListener('DOMContentLoaded', function() {
-                                var audio = document.getElementById('{{ message }}_audio');
-                                if (audio) {
-                                    audio.play().catch(function(error) {
-                                        console.log('Audio play failed:', error);
-                                        // Optionally, display a prompt to the user to enable audio
-                                    });
-                                }
-                            });
-                        </script>
-                        -->
                     {% endif %}
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
-    <!-- Enable Audio Button (Hidden Initially) -->
+    <!-- Enable Audio Button -->
     <div class="container mt-3">
         <button id="enableAudio" class="btn btn-secondary" onclick="enableAudioPlayback()" style="display: none;">Enable Audio</button>
     </div>
@@ -84,7 +67,7 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Main Content Area -->
-            <main class="col-12" aria-label="Main Content">
+            <main class="col-12" id="mainContent" aria-label="Main Content">
                 {% block content %}{% endblock %}
             </main>
         </div>
@@ -95,7 +78,6 @@
     
     <!-- Custom Scripts for Accessibility and Functionality -->
     <script>
-        // Function to enable audio playback after user interaction
         function enableAudioPlayback() {
             const audioElements = document.querySelectorAll('audio.notification-audio');
             audioElements.forEach(function(audio) {
@@ -103,108 +85,14 @@
                     console.log('Audio play failed:', error);
                 });
             });
-            // Hide the button after enabling audio
             document.getElementById('enableAudio').style.display = 'none';
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const uploadedItems = document.querySelectorAll('.uploaded-item');
+            // Handle AJAX Form Submissions
+            const ajaxForms = document.querySelectorAll('form.ajax-form');
 
-            uploadedItems.forEach(function(item) {
-                // Click event to select the item
-                item.addEventListener('click', function(e) {
-                    // Prevent form submissions or button clicks from triggering this
-                    if (e.target.tagName.toLowerCase() === 'button') {
-                        return;
-                    }
-
-                    // Remove 'selected' class from all items
-                    uploadedItems.forEach(function(i) {
-                        i.classList.remove('selected');
-                    });
-                    // Add 'selected' class to the clicked item
-                    this.classList.add('selected');
-                });
-
-                // Keyboard accessibility: Enter key to select
-                item.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter' || e.key === ' ') {
-                        e.preventDefault();
-                        this.click();
-                    }
-                });
-            });
-
-            // Handle Play Document and Play Summary buttons within Uploaded Items
-            document.querySelectorAll('button.read-document, button.read-summary').forEach(function(button) {
-                button.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const index = this.getAttribute('data-index');
-                    const action = this.classList.contains('read-document') ? 'read_document' : 'read_summary';
-
-                    fetch(`/${action}/${index}`, {
-                        method: 'POST',
-                        headers: {
-                            'X-Requested-With': 'XMLHttpRequest'
-                        }
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            // Inform the user and provide manual playback
-                            alert(data.message || `${action.replace('_', ' ')} audio has been generated. Use the play button to listen.`);
-
-                            // Append a play button and audio controls to the specific item
-                            var audioContainer = document.getElementById('audio-container-' + index);
-                            if (audioContainer && data.audio_filename) {
-                                var audioElement = document.createElement('audio');
-                                audioElement.src = '{{ url_for("static", filename="audio/" ) }}' + data.audio_filename;
-                                audioElement.controls = true;
-                                audioElement.preload = 'none'; // Prevent preloading
-                                audioContainer.appendChild(audioElement);
-
-                                // Add a play button
-                                var playButton = document.createElement('button');
-                                playButton.innerText = 'Play Audio';
-                                playButton.className = 'btn btn-primary btn-sm ms-2';
-                                playButton.onclick = function() {
-                                    audioElement.play().catch(function(error) {
-                                        console.log('Audio play failed:', error);
-                                    });
-                                };
-                                audioContainer.appendChild(playButton);
-                            }
-
-                            // Optionally, reload the page to reflect the new audio item
-                            // location.reload();
-                        } else {
-                            // Play error notification if exists
-                            let errorAudio = new Audio('{{ url_for("static", filename="audio/error_notification.wav") }}');
-                            errorAudio.play().catch(function(error) {
-                                console.log('Error notification audio play failed:', error);
-                            });
-
-                            alert(data.message);
-                        }
-                    })
-                    .catch(error => {
-                        console.log(`Error generating ${action}:`, error);
-
-                        // Play error notification if exists
-                        let errorAudio = new Audio('{{ url_for("static", filename="audio/error_notification.wav") }}');
-                        errorAudio.play().catch(function(error) {
-                            console.log('Error notification audio play failed:', error);
-                        });
-
-                        alert(`An error occurred while generating audio for the ${action.replace('_', ' ')}.`);
-                    });
-                });
-            });
-
-            // Handle Generate Audio AJAX Form Submissions
-            const generateAudioForms = document.querySelectorAll('form.generate-audio-form');
-
-            generateAudioForms.forEach(function(form) {
+            ajaxForms.forEach(function(form) {
                 form.addEventListener('submit', function(e) {
                     e.preventDefault(); // Prevent default form submission
 
@@ -224,7 +112,6 @@
                         headers: {
                             'X-Requested-With': 'XMLHttpRequest'
                         },
-                        // Include CSRF token if necessary
                     })
                     .then(response => response.json())
                     .then(data => {
@@ -233,13 +120,14 @@
                         waitingAudio.currentTime = 0;
 
                         if (data.success) {
-                            // Play 'audio_generated.wav'
-                            let generatedAudio = new Audio('{{ url_for("static", filename="audio/audio_generated.wav") }}');
-                            generatedAudio.play().catch(function(error) {
-                                console.log('Generated audio play failed:', error);
+                            // Determine which success audio to play
+                            let successAudioFile = formAction.includes('summarize_document') ? 'summarizing_done.wav' : 'audio_generated.wav';
+                            let successAudio = new Audio('{{ url_for("static", filename="audio/") }}' + successAudioFile);
+                            successAudio.play().catch(function(error) {
+                                console.log('Success audio play failed:', error);
                             });
 
-                            // Optionally, reload the page to see the new audio entry
+                            // Optionally, reload the page to see the new entry
                             window.location.reload();
                         } else {
                             // Play error notification if exists
@@ -248,7 +136,7 @@
                                 console.log('Error notification audio play failed:', error);
                             });
 
-                            alert(data.message || 'Failed to generate audio.');
+                            alert(data.message || 'Failed to process the request.');
                         }
                     })
                     .catch(error => {
@@ -263,14 +151,14 @@
                             console.log('Error notification audio play failed:', error);
                         });
 
-                        alert('An error occurred while generating audio.');
+                        alert('An error occurred while processing the request.');
                     });
                 });
             });
 
-            // Attempt to play only notification audios silently to check autoplay permissions
-            var notificationAudios = document.querySelectorAll('audio.notification-audio');
-            var autoplayAllowed = true;
+            // Handle autoplay permissions
+            const notificationAudios = document.querySelectorAll('audio.notification-audio');
+            let autoplayAllowed = true;
             notificationAudios.forEach(function(audio) {
                 audio.play().catch(function(error) {
                     console.log('Autoplay blocked:', error);
@@ -279,7 +167,6 @@
             });
 
             if (!autoplayAllowed) {
-                // Show the enable audio button
                 document.getElementById('enableAudio').style.display = 'block';
             }
         });
