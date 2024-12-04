@@ -55,6 +55,11 @@ import datetime
 from pyhanko.pdf_utils.incremental_writer import IncrementalPdfFileWriter
 import logging
 
+
+
+
+
+
 # Set environment variable
 os.environ["TOKENIZERS_PARALLELISM"] = "false"
 
@@ -74,6 +79,9 @@ app.config['CELERY_RESULT_BACKEND'] = 'redis://localhost:6379/0'
 
 db = SQLAlchemy(app)
 cache = Cache(app)
+
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
 
 # Initialize Celery
 def make_celery(app):
@@ -170,10 +178,10 @@ keystore_password = os.getenv('KEYSTORE_PASSWORD')  # Securely retrieve your key
 alias = 'myalias'  # Replace with your actual alias
 
 # Set up TTS models
-print("Loading TTS models...")
-tts_en = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=False)
-tts_fr = TTS(model_name="tts_models/fr/mai/tacotron2-DDC", progress_bar=False, gpu=False)
+tts_en = TTS(model_name="tts_models/en/vctk/vits", progress_bar=False, gpu=torch.cuda.is_available())
+tts_fr = TTS(model_name="tts_models/fr/mai/tacotron2-DDC", progress_bar=False, gpu=torch.cuda.is_available())
 loaded_models = {"en": tts_en, "fr": tts_fr}
+
 
 # Default speakers
 default_speakers = {
@@ -198,7 +206,8 @@ p = inflect.engine()
 
 # Load summarization pipeline
 print("Loading summarization model...")
-summarizer = pipeline("summarization", model="facebook/bart-large-cnn", tokenizer="facebook/bart-large-cnn")
+device = 0 if torch.cuda.is_available() else -1
+summarizer = pipeline("summarization", model="facebook/bart-large-cnn", tokenizer="facebook/bart-large-cnn", device=device)
 print("Summarization model loaded.")
 
 # Notification messages configuration
@@ -244,6 +253,15 @@ notification_messages = {
         "language": "en"
     }
 }
+
+def check_gpu_availability():
+    if torch.cuda.is_available():
+        print("Using GPU:", torch.cuda.get_device_name(0))
+    else:
+        print("Using CPU")
+
+check_gpu_availability()
+
 
 def generate_notification_audios():
     for key, message in notification_messages.items():
@@ -330,7 +348,7 @@ def split_text_into_sentences(text):
     sentences = sent_tokenize(text)
     return sentences
 
-def split_text_into_chunks(text, max_chunk_size=1000):
+def split_text_into_chunks(text, max_chunk_size=500):
     sentences = split_text_into_sentences(text)
     chunks = []
     current_chunk = ""
@@ -466,7 +484,10 @@ def summarize_text(text, max_length=150, min_length=40):
 def generate_image_description(image_path):
     try:
         image = Image.open(image_path).convert("RGB")
-        inputs = blip_processor(image, return_tensors="pt")
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        inputs = blip_processor(image, return_tensors="pt").to(device)
+        blip_model.to(device)
+
 
         # Set generation parameters
         generation_kwargs = {
@@ -502,7 +523,7 @@ def generate_audio_task(text, language, audio_filename):
         tts_model = loaded_models.get(language, tts_en)
 
         # Split text into chunks to handle large inputs
-        max_chunk_size = 1000  # Adjust based on TTS model's capabilities
+        max_chunk_size = 500  # Adjust based on TTS model's capabilities
         text_chunks = split_text_into_chunks(text, max_chunk_size)
 
         audio_segments = []
@@ -686,39 +707,33 @@ def generate_self_signed_cert(cert_file_path, key_file_path):
         f.write(cert.public_bytes(serialization.Encoding.PEM))
 
 
-# Configure logging
-logging.basicConfig(level=logging.INFO)
+# Configure logginglogging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 def apply_digital_signature(input_pdf_path, output_pdf_path, keystore_path, keystore_password, alias, jsignpdf_jar_path):
     """
     Applies a digital signature to a PDF document using jsignpdf via subprocess.
-
-    Args:
-        input_pdf_path (str): Path to the input PDF file.
-        output_pdf_path (str): Path where the signed PDF will be saved.
-        keystore_path (str): Path to the PKCS#12 keystore file.
-        keystore_password (str): Password for the keystore.
-        alias (str): Alias name for the certificate within the keystore.
-        jsignpdf_jar_path (str): Path to the jsignpdf JAR file.
-
-    Returns:
-        bool: True if signing is successful, False otherwise.
     """
     try:
-        # Ensure input PDF exists
+        # Validate required inputs
+        if not all([input_pdf_path, output_pdf_path, keystore_path, alias, jsignpdf_jar_path]):
+            logger.error(f"One or more inputs are None: input={input_pdf_path}, output={output_pdf_path}, "
+                         f"keystore={keystore_path}, alias={alias}, jar={jsignpdf_jar_path}")
+            return False
+
+        # Default keystore password to an empty string if None
+        if keystore_password is None:
+            keystore_password = "123"
+
+        # Ensure files exist
         if not os.path.exists(input_pdf_path):
             logger.error(f"Input PDF not found: {input_pdf_path}")
             return False
-
-        # Ensure jsignpdf JAR exists
-        if not os.path.exists(jsignpdf_jar_path):
-            logger.error(f"jsignpdf JAR not found: {jsignpdf_jar_path}")
-            return False
-
-        # Ensure keystore exists
         if not os.path.exists(keystore_path):
             logger.error(f"Keystore not found: {keystore_path}")
+            return False
+        if not os.path.exists(jsignpdf_jar_path):
+            logger.error(f"jsignpdf JAR not found: {jsignpdf_jar_path}")
             return False
 
         # Construct the command
@@ -727,8 +742,8 @@ def apply_digital_signature(input_pdf_path, output_pdf_path, keystore_path, keys
             '-jar',
             jsignpdf_jar_path,
             input_pdf_path,
-            '-d', os.path.dirname(output_pdf_path),  # Output directory
-            '-os', os.path.basename(output_pdf_path),  # Exact output file name
+            '-d', os.path.dirname(output_pdf_path),
+            '-os', os.path.basename(output_pdf_path),
             '-ksf', keystore_path,
             '-ksp', keystore_password,
             '-ka', alias,
@@ -742,8 +757,10 @@ def apply_digital_signature(input_pdf_path, output_pdf_path, keystore_path, keys
             '-ury', '150'
         ]
 
+        # Log the command
+        logger.info(f"Running command: {' '.join(command)}")
+
         # Execute the command
-        logger.info(f"Signing PDF: {input_pdf_path} -> {output_pdf_path}")
         result = subprocess.run(
             command,
             stdout=subprocess.PIPE,
@@ -1152,7 +1169,9 @@ def process_voice_command(item_id):
             speech = librosa.resample(speech, orig_sr=sample_rate, target_sr=16000)
             sample_rate = 16000
 
-        input_values = asr_processor(speech, sampling_rate=sample_rate, return_tensors="pt").input_values
+        device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+        input_values = asr_processor(speech, sampling_rate=sample_rate, return_tensors="pt").input_values.to(device)
+        asr_model.to(device)
         with torch.no_grad():
             logits = asr_model(input_values).logits
         predicted_ids = torch.argmax(logits, dim=-1)
@@ -1415,4 +1434,5 @@ def about_route():
 
 # Run the app
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='127.0.0.1', port=5000, debug=True)
+
