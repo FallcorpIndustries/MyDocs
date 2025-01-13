@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+  <h2 class="mb-4">Choose a Plan</h2>
+  <div class="alert alert-info" role="alert">
+    Your current plan: <strong>{{ current_user.plan|capitalize }}</strong>
+  </div>
+  <div class="row">
+  
+    <!-- Discovery Card -->
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Discovery Plan (Free)</h5>
+          <p class="card-text">
+            - Basic features <br>
+            - Up to 20 monthly uploads <br>
+            - 5 audio generations / month <br>
+            - 5 summaries / month
+          </p>
+          <form method="POST" action="{{ url_for('change_plan') }}">
+            <input type="hidden" name="plan" value="discovery">
+            <button type="submit" class="btn btn-outline-primary w-100" 
+                    {% if current_user.plan == 'discovery' %}disabled{% endif %}>
+              {% if current_user.plan == 'discovery' %}
+                Current Plan
+              {% else %}
+                Select Discovery
+              {% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Pro Card -->
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Pro Plan</h5>
+          <p class="card-text">
+            - Unlimited uploads <br>
+            - Unlimited audio generations <br>
+            - Unlimited summaries <br>
+            - Priority support
+          </p>
+          <form method="POST" action="{{ url_for('change_plan') }}">
+            <input type="hidden" name="plan" value="pro">
+            <button type="submit" class="btn btn-success w-100"
+                    {% if current_user.plan == 'pro' %}disabled{% endif %}>
+              {% if current_user.plan == 'pro' %}
+                Current Plan
+              {% else %}
+                Upgrade to Pro
+              {% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Education Card -->
+    <div class="col-md-4 mb-3">
+      <div class="card h-100">
+        <div class="card-body">
+          <h5 class="card-title">Education Plan</h5>
+          <p class="card-text">
+            - 200 monthly uploads <br>
+            - 200 audio generations <br>
+            - 200 summaries <br>
+            - Great for schools
+          </p>
+          <form method="POST" action="{{ url_for('change_plan') }}">
+            <input type="hidden" name="plan" value="education">
+            <button type="submit" class="btn btn-info w-100"
+                    {% if current_user.plan == 'education' %}disabled{% endif %}>
+              {% if current_user.plan == 'education' %}
+                Current Plan
+              {% else %}
+                Select Education
+              {% endif %}
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+    
+  </div>
+
+  <div class="mt-4">
+    <button type="button" class="btn btn-secondary" onclick="location.href='{{ url_for('index') }}';">Back to Home</button>
+  </div>
+</div>
+{% endblock %}

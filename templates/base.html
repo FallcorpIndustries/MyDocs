@@ -1,48 +1,48 @@
-<!-- templates/base.html -->
-
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>DocReader - Document Reader and Image Describer</title>
-    <!-- Bootstrap CSS for styling -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
-    <!-- ARIA Accessibility Enhancements -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <title>DocReader - Document Reader and Image Describer</title>
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+        <!-- Custom CSS (your high-contrast theme) -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+        <!-- Braille Animation CSS -->
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/brailleAnimation.css') }}">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+    
 <body>
-    <!-- Skip to Main Content Link -->
     <a href="#mainContent" class="visually-hidden-focusable">Skip to main content</a>
 
-    <!-- Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark" aria-label="Main Navigation">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="{{ url_for('index') }}">DocReader</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" 
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <a class="navbar-brand" href="#">DocReader</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    {% if current_user.is_authenticated %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
-                    </li>
-                    {% endif %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('help_route') }}">Help</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ url_for('about_route') }}">About</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            <i class="fas fa-book"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                            {% if current_user.is_authenticated %}
+                            <li><a class="dropdown-item" href="{{ url_for('logout') }}">Logout</a></li>
+                            {% endif %}
+                            <li><a class="dropdown-item" href="{{ url_for('help_route') }}">Help</a></li>
+                            <li><a class="dropdown-item" href="{{ url_for('about_route') }}">About</a></li>
+                            <li><button type="button" class="dropdown-item" onclick="location.href='{{ url_for('upgrade_plans') }}';">Change Plan</button></li>
+                        </ul>
                     </li>
                 </ul>
             </div>
         </div>
     </nav>
+    
 
-    <!-- Flash Messages with Audio Notifications -->
+    <!-- Flash messages (uses your existing logic) -->
     <div class="container mt-3">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
@@ -51,32 +51,37 @@
                         {{ notification_messages[message]['text'] if message in notification_messages else message }}
                     </div>
                     {% if message in notification_messages %}
-                        <audio class="notification-audio" id="{{ message }}_audio" src="{{ url_for('static', filename='audio/' + notification_messages[message]['filename']) }}" preload="none"></audio>
+                        <audio class="notification-audio" 
+                               id="{{ message }}_audio" 
+                               src="{{ url_for('static', filename='audio/' + notification_messages[message]['filename']) }}" 
+                               preload="none">
+                        </audio>
                     {% endif %}
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
 
-    <!-- Enable Audio Button -->
+    <!-- Audio enable button -->
     <div class="container mt-3">
-        <button id="enableAudio" class="btn btn-secondary" onclick="enableAudioPlayback()" style="display: none;">Enable Audio</button>
+        <button id="enableAudio" class="btn btn-secondary" onclick="enableAudioPlayback()" style="display: none;">
+            Enable Audio
+        </button>
     </div>
 
-    <!-- Main Container with Content -->
+    <!-- Main Content Area -->
     <div class="container-fluid">
         <div class="row">
-            <!-- Main Content Area -->
             <main class="col-12" id="mainContent" aria-label="Main Content">
                 {% block content %}{% endblock %}
             </main>
         </div>
     </div>
 
-    <!-- Bootstrap JS and dependencies -->
+    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
-    <!-- Custom Scripts for Accessibility and Functionality -->
+    <!-- Existing scripts -->
     <script>
         function enableAudioPlayback() {
             const audioElements = document.querySelectorAll('audio.notification-audio');
@@ -89,24 +94,19 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle AJAX Form Submissions
             const ajaxForms = document.querySelectorAll('form.ajax-form');
-
             ajaxForms.forEach(function(form) {
                 form.addEventListener('submit', function(e) {
-                    e.preventDefault(); // Prevent default form submission
-
+                    e.preventDefault(); 
                     const formAction = form.getAttribute('action');
                     const formMethod = form.getAttribute('method') || 'POST';
 
-                    // Play 'waiting_song.wav'
                     let waitingAudio = new Audio('{{ url_for("static", filename="audio/waiting_song.wav") }}');
-                    waitingAudio.loop = true; // Loop the waiting song
+                    waitingAudio.loop = true;
                     waitingAudio.play().catch(function(error) {
                         console.log('Waiting audio play failed:', error);
                     });
 
-                    // Send AJAX request
                     fetch(formAction, {
                         method: formMethod,
                         headers: {
@@ -115,48 +115,60 @@
                     })
                     .then(response => response.json())
                     .then(data => {
-                        // Stop 'waiting_song.wav'
                         waitingAudio.pause();
                         waitingAudio.currentTime = 0;
 
                         if (data.success) {
                             // Determine which success audio to play
-                            let successAudioFile = formAction.includes('summarize_document') ? 'summarizing_done.wav' : 'audio_generated.wav';
+                            let successAudioFile = formAction.includes('summarize_document') 
+                                ? 'summarizing_done.wav' 
+                                : 'audio_generated.wav';
+
                             let successAudio = new Audio('{{ url_for("static", filename="audio/") }}' + successAudioFile);
+
+                            // After success audio ends, show alert and reload
+                            successAudio.onended = function() {
+                                if (formAction.includes('summarize_document')) {
+                                    alert("Summarization done!");
+                                } else {
+                                    alert("Audio generated successfully!");
+                                }
+                                window.location.reload();
+                            };
+
+                            // Attempt to play
                             successAudio.play().catch(function(error) {
                                 console.log('Success audio play failed:', error);
+                                // If audio fails, still alert and reload
+                                if (formAction.includes('summarize_document')) {
+                                    alert("Summarization done!");
+                                } else {
+                                    alert("Audio generated successfully!");
+                                }
+                                window.location.reload();
                             });
-
-                            // Optionally, reload the page to see the new entry
-                            window.location.reload();
+                            
                         } else {
-                            // Play error notification if exists
                             let errorAudio = new Audio('{{ url_for("static", filename="audio/error_notification.wav") }}');
                             errorAudio.play().catch(function(error) {
                                 console.log('Error notification audio play failed:', error);
                             });
-
                             alert(data.message || 'Failed to process the request.');
                         }
                     })
                     .catch(error => {
                         console.log('Error:', error);
-                        // Stop 'waiting_song.wav'
                         waitingAudio.pause();
                         waitingAudio.currentTime = 0;
-
-                        // Play error notification if exists
                         let errorAudio = new Audio('{{ url_for("static", filename="audio/error_notification.wav") }}');
                         errorAudio.play().catch(function(error) {
                             console.log('Error notification audio play failed:', error);
                         });
-
                         alert('An error occurred while processing the request.');
                     });
                 });
             });
 
-            // Handle autoplay permissions
             const notificationAudios = document.querySelectorAll('audio.notification-audio');
             let autoplayAllowed = true;
             notificationAudios.forEach(function(audio) {
@@ -171,7 +183,113 @@
             }
         });
     </script>
-    
+
+    <!-- Braille Animation JS -->
+    <script src="{{ url_for('static', filename='js/brailleAnimation.js') }}"></script>
+
+    <!-- -------------- UPGRADE MODAL SECTION -------------- -->
+    {% if session.get('show_upgrade_modal') %}
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var upgradeModal = new bootstrap.Modal(document.getElementById('upgradeModal'));
+        upgradeModal.show();
+    });
+    </script>
+    {% set _ = session.pop('show_upgrade_modal') %}
+    {% endif %}
+
+    <div class="modal fade" id="upgradeModal" tabindex="-1" aria-labelledby="upgradeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          
+          <div class="modal-header">
+            <h5 class="modal-title" id="upgradeModalLabel">Upgrade Your Plan</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          
+          <div class="modal-body">
+            <div class="row">
+              <!-- Discovery Plan Card -->
+              <div class="col-12 mb-3">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Discovery (Free)</h5>
+                    <p class="card-text">
+                      Up to 20 monthly uploads, 5 summaries, 5 audio
+                    </p>
+                    <form method="POST" action="{{ url_for('change_plan') }}">
+                      <input type="hidden" name="plan" value="discovery">
+                      <button type="submit" class="btn btn-outline-primary w-100"
+                        {% if current_user.plan == 'discovery' %}disabled{% endif %}>
+                        {% if current_user.plan == 'discovery' %}
+                          Current Plan
+                        {% else %}
+                          Stay on Discovery
+                        {% endif %}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+              <!-- Pro Plan Card -->
+              <div class="col-12 mb-3">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Pro Plan</h5>
+                    <p class="card-text">
+                      Unlimited uploads, unlimited summaries, unlimited audio, priority support
+                    </p>
+                    <form method="POST" action="{{ url_for('change_plan') }}">
+                      <input type="hidden" name="plan" value="pro">
+                      <button type="submit" class="btn btn-success w-100"
+                        {% if current_user.plan == 'pro' %}disabled{% endif %}>
+                        {% if current_user.plan == 'pro' %}
+                          Current Plan
+                        {% else %}
+                          Upgrade to Pro
+                        {% endif %}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Education Plan Card -->
+              <div class="col-12">
+                <div class="card h-100">
+                  <div class="card-body">
+                    <h5 class="card-title">Education Plan</h5>
+                    <p class="card-text">
+                      200 monthly uploads, 200 summaries, 200 audio
+                    </p>
+                    <form method="POST" action="{{ url_for('change_plan') }}">
+                      <input type="hidden" name="plan" value="education">
+                      <button type="submit" class="btn btn-info w-100"
+                        {% if current_user.plan == 'education' %}disabled{% endif %}>
+                        {% if current_user.plan == 'education' %}
+                          Current Plan
+                        {% else %}
+                          Switch to Education
+                        {% endif %}
+                      </button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+              
+            </div> <!-- end row -->
+          </div> <!-- end modal-body -->
+          
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+          
+        </div>
+      </div>
+    </div>
+    <!-- -------------- END UPGRADE MODAL SECTION -------------- -->
+
     {% block scripts %}{% endblock %}
 </body>
 </html>

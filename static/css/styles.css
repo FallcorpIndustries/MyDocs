@@ -1,135 +1,120 @@
-/* static/css/styles.css */
-
-/* General Styles */
+/* High Contrast Theme: Red and Green highlights */
 body {
-    background-color: #f8f9fa;
+    background-color: #000000; 
+    color: #ffffff;
     font-family: Arial, sans-serif;
+    line-height: 1.6;
+    position: relative; /* Ensure proper layering */
 }
 
-/* Sidebar Styles */
-.sidebar {
-    background-color: #ffffff;
-    border-right: 1px solid #dee2e6;
-    height: 100vh;
-    position: sticky;
+/* Animated Background Removed */
+/*
+body::before {
+    content: '';
+    position: fixed;
     top: 0;
-    overflow-y: auto;
-    padding-top: 20px;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(
+        from 180deg at 50% 70%,
+        hsla(0, 0%, 98%, 1) 0deg,
+        #888888 72deg,
+        #fdfdfd 144deg,
+        #7c7a7a 216deg,
+        #ddf3eb 288deg,
+        hsla(0, 0%, 98%, 1) 1turn
+    );
+    mask: radial-gradient(circle at 50% 50%, white 2px, transparent 2.5px) 50% 50% / var(--size) var(--size),
+        url("https://assets.codepen.io/605876/noise-mask.png") 256px 50% / 256px 256px;
+    mask-composite: intersect;
+    animation: braille-animation 60s infinite linear;
+    z-index: -1; /* Ensure it's behind content */
+
+
+:root {
+    --size: 20px;
 }
 
-.sidebar h4 {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-#history-list {
-    max-height: 80vh;
-    overflow-y: auto;
-}
-
-.history-item {
-    cursor: pointer;
-}
-
-.history-item:hover {
-    background-color: #e7f1ff; /* Light blue on hover */
-}
-
-.history-item.selected {
-    background-color: #cce4ff; /* Darker blue when selected */
-    border-left: 4px solid #007bff; /* Blue left border */
-}
-
-/* Main Content Styles */
-.main-content {
-    padding: 20px;
-}
-
-.card-title {
-    font-size: 1.25rem;
-    font-weight: 600;
-}
-
-.card-text {
-    font-size: 1rem;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 767.98px) {
-    .sidebar {
-        height: auto;
-        position: relative;
-        border-right: none;
-        border-bottom: 1px solid #dee2e6;
+@keyframes braille-animation {
+    0% {
+        mask-position: 0% 0%, 0 0%;
+    }
+    50% {
+        mask-position: 50% 50%, 50% 50%;
+    }
+    100% {
+        mask-position: 100% 100%, 0 50%;
     }
 }
+*/
 
-/* Button Styles */
-.btn-info {
-    background-color: #17a2b8;
-    border-color: #17a2b8;
+/* Navbar */
+.navbar {
+    background-color: #000000;
+    z-index: 1; /* Bring above animation */
 }
 
-.btn-info:hover {
-    background-color: #138496;
-    border-color: #117a8b;
+/* General Layout Fix */
+.container, .box, .list-group-item {
+    position: relative;
+    z-index: 1; /* Ensure all content is above the animation */
 }
 
-.btn-warning {
-    background-color: #ffc107;
-    border-color: #ffc107;
+/* Buttons */
+.btn-primary, .btn-success, .btn-info, .btn-outline-primary {
+    background-color: #00a000 !important;
+    border-color: #00a000 !important;
+    color: #ffffff !important;
 }
 
-.btn-warning:hover {
-    background-color: #e0a800;
-    border-color: #d39e00;
+.btn-primary:hover, .btn-success:hover, .btn-info:hover, .btn-outline-primary:hover {
+    background-color: #00ff00 !important;
+    border-color: #00ff00 !important;
 }
 
-.btn-danger {
-    background-color: #dc3545;
-    border-color: #dc3545;
-}
-
-.btn-danger:hover {
-    background-color: #c82333;
-    border-color: #bd2130;
-}
-
-.btn-primary {
-    background-color: #0d6efd;
-    border-color: #0d6efd;
-}
-
-.btn-primary:hover {
-    background-color: #0b5ed7;
-    border-color: #0a58ca;
-}
-
-.btn-secondary {
-    background-color: #6c757d;
-    border-color: #6c757d;
-}
-
-.btn-secondary:hover {
-    background-color: #5a6268;
-    border-color: #545b62;
-}
-
-/* Accessibility Enhancements */
-button:focus, input:focus, select:focus, textarea:focus, .history-item:focus {
-    outline: 2px dashed #333333;
-    outline-offset: 2px;
-}
-
-/* Audio Player Styles */
-audio {
-    width: 100%;
-    margin-top: 10px;
-}
-
-/* Card Image Styles */
-.card img {
-    max-width: 100%;
-    height: auto;
+/* Alerts */
+.alert-info {
+    background-color: #000000;
+    border-color: #444444;
+    color: #ffffff;
+    padding: 15px;
     border-radius: 5px;
+}
+
+/* Forms */
+.form-control {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #444444;
+    border-radius: 5px;
+}
+
+.form-control:focus {
+    background-color: #000000;
+    border-color: #00ff00;
+    outline: none;
+    box-shadow: 0 0 5px #00ff00;
+}
+
+/* List Items */
+.list-group-item {
+    background-color: #000000;
+    color: #ffffff;
+    border: 1px solid #444444;
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+.list-group-item:hover {
+    background-color: #000000;
+}
+
+/* Feedback Section */
+.feedback-box {
+    background-color: #000000;
+    border: 1px solid #444444;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px;
 }

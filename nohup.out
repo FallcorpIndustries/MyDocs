@@ -1,0 +1,1070 @@
+[2024-11-27 02:17:07 +0000] [185734] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:17:07 +0000] [185734] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:07 +0000] [185734] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:08 +0000] [185734] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:08 +0000] [185734] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:09 +0000] [185734] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:09 +0000] [185734] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:10 +0000] [185734] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:10 +0000] [185734] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:11 +0000] [185734] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:11 +0000] [185734] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:12 +0000] [185734] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2024-11-27 02:17:25 +0000] [185736] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:17:25 +0000] [185736] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:25 +0000] [185736] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:26 +0000] [185736] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:26 +0000] [185736] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:27 +0000] [185736] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:27 +0000] [185736] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:28 +0000] [185736] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:28 +0000] [185736] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:29 +0000] [185736] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:17:29 +0000] [185736] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:17:30 +0000] [185736] [ERROR] Can't connect to ('127.0.0.1', 5000)
+[2024-11-27 02:24:09 +0000] [185853] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:24:09 +0000] [185853] [INFO] Listening at: http://127.0.0.1:5000 (185853)
+[2024-11-27 02:24:09 +0000] [185853] [INFO] Using worker: sync
+[2024-11-27 02:24:09 +0000] [185854] [INFO] Booting worker with pid: 185854
+[2024-11-27 02:24:27 +0000] [185854] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 135, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/base.py", line 66, in wsgi
+    self.callable = self.load()
+                    ^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+    return self.load_wsgiapp()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/util.py", line 370, in import_app
+    mod = importlib.import_module(module)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/ubuntu/MyDocs/app.py", line 70, in <module>
+    app.logger.addHandler(handler)
+    ^^^
+NameError: name 'app' is not defined
+[2024-11-27 02:24:27 +0000] [185854] [INFO] Worker exiting (pid: 185854)
+[2024-11-27 02:24:28 +0000] [185853] [ERROR] Worker (pid:185854) exited with code 3
+[2024-11-27 02:24:28 +0000] [185853] [ERROR] Shutting down: Master
+[2024-11-27 02:24:28 +0000] [185853] [ERROR] Reason: Worker failed to boot.
+[2024-11-27 02:26:20 +0000] [185872] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:26:20 +0000] [185872] [INFO] Listening at: http://127.0.0.1:5000 (185872)
+[2024-11-27 02:26:20 +0000] [185872] [INFO] Using worker: sync
+[2024-11-27 02:26:20 +0000] [185873] [INFO] Booting worker with pid: 185873
+[2024-11-27 02:26:37 +0000] [185873] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 135, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/base.py", line 66, in wsgi
+    self.callable = self.load()
+                    ^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+    return self.load_wsgiapp()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/util.py", line 370, in import_app
+    mod = importlib.import_module(module)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/ubuntu/MyDocs/app.py", line 70, in <module>
+    app.logger.addHandler(handler)
+    ^^^
+NameError: name 'app' is not defined
+[2024-11-27 02:26:37 +0000] [185873] [INFO] Worker exiting (pid: 185873)
+[2024-11-27 02:26:39 +0000] [185872] [ERROR] Worker (pid:185873) exited with code 3
+[2024-11-27 02:26:39 +0000] [185872] [ERROR] Shutting down: Master
+[2024-11-27 02:26:39 +0000] [185872] [ERROR] Reason: Worker failed to boot.
+[2024-11-27 02:26:47 +0000] [185883] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:26:47 +0000] [185883] [INFO] Listening at: http://127.0.0.1:5000 (185883)
+[2024-11-27 02:26:47 +0000] [185883] [INFO] Using worker: sync
+[2024-11-27 02:26:47 +0000] [185884] [INFO] Booting worker with pid: 185884
+[2024-11-27 02:27:04 +0000] [185884] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 135, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/base.py", line 66, in wsgi
+    self.callable = self.load()
+                    ^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+    return self.load_wsgiapp()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/util.py", line 370, in import_app
+    mod = importlib.import_module(module)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/ubuntu/MyDocs/app.py", line 70, in <module>
+    app.logger.addHandler(handler)
+    ^^^
+NameError: name 'app' is not defined
+[2024-11-27 02:27:04 +0000] [185884] [INFO] Worker exiting (pid: 185884)
+[2024-11-27 02:27:05 +0000] [185883] [ERROR] Worker (pid:185884) exited with code 3
+[2024-11-27 02:27:05 +0000] [185883] [ERROR] Shutting down: Master
+[2024-11-27 02:27:05 +0000] [185883] [ERROR] Reason: Worker failed to boot.
+[2024-11-27 02:39:51 +0000] [186880] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:39:51 +0000] [186880] [INFO] Listening at: http://127.0.0.1:5000 (186880)
+[2024-11-27 02:39:51 +0000] [186880] [INFO] Using worker: sync
+[2024-11-27 02:39:51 +0000] [186881] [INFO] Booting worker with pid: 186881
+[nltk_data] Downloading package punkt to /home/ubuntu/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+INFO:TTS.utils.manage:tts_models/en/vctk/vits is already downloaded.
+INFO:TTS.tts.models:Using model: vits
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 22050
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: 0
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: None
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: None
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: None
+INFO:TTS.utils.audio.processor: | signal_norm: None
+INFO:TTS.utils.audio.processor: | symmetric_norm: None
+INFO:TTS.utils.audio.processor: | mel_fmin: 0
+INFO:TTS.utils.audio.processor: | mel_fmax: None
+INFO:TTS.utils.audio.processor: | pitch_fmin: None
+INFO:TTS.utils.audio.processor: | pitch_fmax: None
+INFO:TTS.utils.audio.processor: | spec_gain: 20.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 1.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: False
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: None
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.vits:Initialization of speaker-embedding layers.
+INFO:TTS.utils.manage:tts_models/fr/mai/tacotron2-DDC is already downloaded.
+INFO:TTS.utils.manage:vocoder_models/universal/libri-tts/fullband-melgan is already downloaded.
+INFO:TTS.tts.models:Using model: Tacotron2
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 16000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 20
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/tts_models--fr--mai--tacotron2-DDC/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.base_tacotron:Model's reduction rate `r` is set to: 1
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Vocoder model: fullband_melgan
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Generator model: fullband_melgan_generator
+INFO:TTS.vocoder.models:Discriminator model: melgan_multiscale_discriminator
+Some weights of Wav2Vec2ForCTC were not initialized from the model checkpoint at facebook/wav2vec2-base-960h and are newly initialized: ['wav2vec2.masked_spec_embed']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 6.311
+INFO:TTS.utils.synthesizer:Real-time factor: 1.164
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 5.777
+INFO:TTS.utils.synthesizer:Real-time factor: 1.128
+INFO:app:Signing PDF: uploads/documents/NON-DISCLOSURE_AGREEMENT_NDA-Gwenael_Le_Bodic.pdf -> uploads/documents/signed_NON-DISCLOSURE_AGREEMENT_NDA-Gwenael_Le_Bodicpdf
+ERROR:app:Exception during PDF signing: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "/home/ubuntu/MyDocs/app.py", line 752, in apply_digital_signature
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1885, in _execute_child
+    self.pid = _fork_exec(
+               ^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR:app:Exception on /process_voice_command/1 [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1212, in make_response
+    raise TypeError(
+TypeError: The view function for 'process_voice_command' did not return a valid response. The function either returned None or ended without a return statement.
+[2024-11-27 02:47:57 +0000] [187584] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:47:57 +0000] [187584] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:47:57 +0000] [187584] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:47:58 +0000] [187584] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:47:58 +0000] [187584] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:47:59 +0000] [187584] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:47:59 +0000] [187584] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:48:00 +0000] [187584] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:48:00 +0000] [187584] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:48:01 +0000] [187584] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 02:48:01 +0000] [187584] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 02:48:02 +0000] [187584] [ERROR] Can't connect to ('127.0.0.1', 5000)
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 4.877
+INFO:TTS.utils.synthesizer:Real-time factor: 0.927
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 5.566
+INFO:TTS.utils.synthesizer:Real-time factor: 1.092
+INFO:app:Signing PDF: uploads/documents/NON-DISCLOSURE_AGREEMENT_NDA-Gwenael_Le_Bodic.pdf -> uploads/documents/signed_NON-DISCLOSURE_AGREEMENT_NDA-Gwenael_Le_Bodicpdf
+ERROR:app:Exception during PDF signing: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "/home/ubuntu/MyDocs/app.py", line 752, in apply_digital_signature
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1885, in _execute_child
+    self.pid = _fork_exec(
+               ^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR:app:Exception on /process_voice_command/1 [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1212, in make_response
+    raise TypeError(
+TypeError: The view function for 'process_voice_command' did not return a valid response. The function either returned None or ended without a return statement.
+[2024-11-27 02:50:27 +0000] [186880] [INFO] Handling signal: term
+[2024-11-27 02:50:27 +0000] [186881] [INFO] Worker exiting (pid: 186881)
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+Recognized speech: yes
+Recognized speech: yes
+[2024-11-27 02:50:29 +0000] [186880] [INFO] Shutting down: Master
+[2024-11-27 02:51:20 +0000] [187616] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 02:51:20 +0000] [187616] [INFO] Listening at: http://127.0.0.1:5000 (187616)
+[2024-11-27 02:51:20 +0000] [187616] [INFO] Using worker: sync
+[2024-11-27 02:51:20 +0000] [187617] [INFO] Booting worker with pid: 187617
+[nltk_data] Downloading package punkt to /home/ubuntu/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+INFO:TTS.utils.manage:tts_models/en/vctk/vits is already downloaded.
+INFO:TTS.tts.models:Using model: vits
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 22050
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: 0
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: None
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: None
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: None
+INFO:TTS.utils.audio.processor: | signal_norm: None
+INFO:TTS.utils.audio.processor: | symmetric_norm: None
+INFO:TTS.utils.audio.processor: | mel_fmin: 0
+INFO:TTS.utils.audio.processor: | mel_fmax: None
+INFO:TTS.utils.audio.processor: | pitch_fmin: None
+INFO:TTS.utils.audio.processor: | pitch_fmax: None
+INFO:TTS.utils.audio.processor: | spec_gain: 20.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 1.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: False
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: None
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.vits:Initialization of speaker-embedding layers.
+INFO:TTS.utils.manage:tts_models/fr/mai/tacotron2-DDC is already downloaded.
+INFO:TTS.utils.manage:vocoder_models/universal/libri-tts/fullband-melgan is already downloaded.
+INFO:TTS.tts.models:Using model: Tacotron2
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 16000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 20
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/tts_models--fr--mai--tacotron2-DDC/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.base_tacotron:Model's reduction rate `r` is set to: 1
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Vocoder model: fullband_melgan
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Generator model: fullband_melgan_generator
+INFO:TTS.vocoder.models:Discriminator model: melgan_multiscale_discriminator
+Some weights of Wav2Vec2ForCTC were not initialized from the model checkpoint at facebook/wav2vec2-base-960h and are newly initialized: ['wav2vec2.masked_spec_embed']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 5.907
+INFO:TTS.utils.synthesizer:Real-time factor: 1.169
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 6.153
+INFO:TTS.utils.synthesizer:Real-time factor: 1.137
+INFO:app:Signing PDF: uploads/documents/NON-DISCLOSURE_AGREEMENT_NDA-Gwenael_Le_Bodic.pdf -> uploads/documents/signed_NON-DISCLOSURE_AGREEMENT_NDA-Gwenael_Le_Bodicpdf
+ERROR:app:Exception during PDF signing: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "/home/ubuntu/MyDocs/app.py", line 752, in apply_digital_signature
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1885, in _execute_child
+    self.pid = _fork_exec(
+               ^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR:app:Exception on /process_voice_command/1 [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1212, in make_response
+    raise TypeError(
+TypeError: The view function for 'process_voice_command' did not return a valid response. The function either returned None or ended without a return statement.
+[2024-11-27 02:55:08 +0000] [187616] [INFO] Handling signal: term
+[2024-11-27 02:55:08 +0000] [187617] [INFO] Worker exiting (pid: 187617)
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+Recognized speech: yes
+[2024-11-27 02:55:10 +0000] [187616] [INFO] Shutting down: Master
+[2024-11-27 03:03:22 +0000] [188293] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 03:03:22 +0000] [188293] [INFO] Listening at: http://127.0.0.1:5000 (188293)
+[2024-11-27 03:03:22 +0000] [188293] [INFO] Using worker: sync
+[2024-11-27 03:03:22 +0000] [188294] [INFO] Booting worker with pid: 188294
+[nltk_data] Downloading package punkt to /home/ubuntu/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+INFO:TTS.utils.manage:tts_models/en/vctk/vits is already downloaded.
+INFO:TTS.tts.models:Using model: vits
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 22050
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: 0
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: None
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: None
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: None
+INFO:TTS.utils.audio.processor: | signal_norm: None
+INFO:TTS.utils.audio.processor: | symmetric_norm: None
+INFO:TTS.utils.audio.processor: | mel_fmin: 0
+INFO:TTS.utils.audio.processor: | mel_fmax: None
+INFO:TTS.utils.audio.processor: | pitch_fmin: None
+INFO:TTS.utils.audio.processor: | pitch_fmax: None
+INFO:TTS.utils.audio.processor: | spec_gain: 20.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 1.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: False
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: None
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.vits:Initialization of speaker-embedding layers.
+INFO:TTS.utils.manage:tts_models/fr/mai/tacotron2-DDC is already downloaded.
+INFO:TTS.utils.manage:vocoder_models/universal/libri-tts/fullband-melgan is already downloaded.
+INFO:TTS.tts.models:Using model: Tacotron2
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 16000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 20
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/tts_models--fr--mai--tacotron2-DDC/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.base_tacotron:Model's reduction rate `r` is set to: 1
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Vocoder model: fullband_melgan
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Generator model: fullband_melgan_generator
+INFO:TTS.vocoder.models:Discriminator model: melgan_multiscale_discriminator
+Some weights of Wav2Vec2ForCTC were not initialized from the model checkpoint at facebook/wav2vec2-base-960h and are newly initialized: ['wav2vec2.masked_spec_embed']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 6.332
+INFO:TTS.utils.synthesizer:Real-time factor: 1.209
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+INFO:TTS.utils.synthesizer:Processing time: 6.102
+INFO:TTS.utils.synthesizer:Real-time factor: 1.152
+INFO:app:Signing PDF: uploads/documents/ACCORD_DE_CONFIDENTIALITE_NDA-Lisa-Marie_Merten_.pdf -> uploads/documents/signed_ACCORD_DE_CONFIDENTIALITE_NDA-Lisa-Marie_Merten_pdf
+ERROR:app:Exception during PDF signing: expected str, bytes or os.PathLike object, not NoneType
+Traceback (most recent call last):
+  File "/home/ubuntu/MyDocs/app.py", line 752, in apply_digital_signature
+    result = subprocess.run(
+             ^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 548, in run
+    with Popen(*popenargs, **kwargs) as process:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/subprocess.py", line 1026, in __init__
+    self._execute_child(args, executable, preexec_fn, close_fds,
+  File "/usr/lib/python3.12/subprocess.py", line 1885, in _execute_child
+    self.pid = _fork_exec(
+               ^^^^^^^^^^^
+TypeError: expected str, bytes or os.PathLike object, not NoneType
+ERROR:app:Exception on /process_voice_command/1 [POST]
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1511, in wsgi_app
+    response = self.full_dispatch_request()
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 920, in full_dispatch_request
+    return self.finalize_request(rv)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 939, in finalize_request
+    response = self.make_response(rv)
+               ^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/flask/app.py", line 1212, in make_response
+    raise TypeError(
+TypeError: The view function for 'process_voice_command' did not return a valid response. The function either returned None or ended without a return statement.
+[2024-11-27 03:35:18 +0000] [188293] [INFO] Handling signal: term
+[2024-11-27 03:35:18 +0000] [188294] [INFO] Worker exiting (pid: 188294)
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+Extracted text: FALLCORP TECHNOLOGIES INC. five thousand, eight hundred and ninety-one Av Decelles Montreal, Quebec (438) 765-0908 fallcorpsn at gmail.com www.fallcorpindustries.com ACCORD DE CONFIDENTIALITE (NDA) Date : fifteen novembre two thousand and twenty-four Partie divulgatrice : Fallcorp Technologies INC, five thousand, eight hundred and ninety-one Av Decelles, Montreal, Canada Partie receptrice : Lisa-Marie Merten, one hundred and twelve Boul de lUnion, Saint-Lambert, QC, J4R 2M6, Canada Cet Accord de Confidentialite (ci-apres denomme lAccord) est conclu entre la Partie divulgatrice et la Partie receptrice (collectivement, les Parties) afin de proteger la confidentialite des informations echangees dans le cadre du projet MyWay. 1. OBJET. Lobjet de cet Accord est de proteger les Informations Confidentielles et la propriete intellectuelle divulguees par la Partie divulgatrice dans le cadre du developpement, de lamelioration, de la commercialisation et de la gestion marketing du projet MyWay. Cet Accord etablit les obligations des Parties pour maintenir la confidentialite et proteger les informations proprietaires. 2. DEFINITION DES INFORMATIONS CONFIDENTIELLES. Aux fins de cet Accord, Informations Confidentielles comprend, sans sy limiter : Les strategies commerciales, les plans, previsions et budgets, Les donnees techniques, inventions, secrets commerciaux et savoir-faire, Les conceptions de produits, prototypes, schemas et donnees de recherche, Les plans marketing, analyses de marche, donnees client et listes de fournisseurs, Les donnees financieres, contrats et accords, Toute autre information sensible ou proprietaire identifiee comme confidentielle par la Partie divulgatrice. Les Informations Confidentielles nincluent pas : (a) Les informations rendues publiques sans faute de la Partie receptrice, (b) Les informations developpees independamment par la Partie receptrice sans reference aux Informations Confidentielles, (c) Les informations obtenues legalement dun tiers sans obligation de confidentialite. 3. OBLIGATIONS DE LA PARTIE RECEPTRICE. La Partie receptrice accepte de : (a) Garder toutes les Informations Confidentielles strictement confidentielles et de les utiliser uniquement dans le cadre du projet MyWay, (b) Restreindre lacces aux Informations Confidentielles aux employes, agents ou sous-traitants ayant un besoin legitime et soumis a des obligations de confidentialite similaires, (c) Ne pas dupliquer, copier ou reproduire les Informations Confidentielles sans consentement ecrit . prealable, (d) Informer immediatement la Partie divulgatrice de tout acces non autorise ou divulgation des Informations Confidentielles, (e) Prendre des mesures raisonnables pour proteger la confidentialite et lintegrite des Informations Confidentielles. 4. DIVULGATIONS PERMISES. La Partie receptrice peut divulguer les Informations Confidentielles uniquement : (a) Pour se conformer aux lois, reglements ou ordonnances judiciaires, sous reserve de notification ecrite rapide a la Partie divulgatrice, (b) A ses avocats, comptables ou conseillers financiers, a des fins legitimes, sous reserve dobligations de confidentialite. 5. PROPRIETE DES INFORMATIONS CONFIDENTIELLES. Toutes les Informations Confidentielles et les droits de propriete intellectuelle associes restent la propriete exclusive de la Partie divulgatrice. Rien dans cet Accord naccorde a la Partie receptrice de droits ou dinterets dans les Informations Confidentielles, sauf autorisation expresse. 6. DUREE ET SURVIE. Cet Accord prend effet a la date de signature par les deux Parties et reste en vigueur pour une periode de cinq (5) ans. Les obligations de confidentialite survivront a la resiliation de cet Accord pour une periode supplementaire de cinq (5) ans. 7. RETOUR OU DESTRUCTION DES INFORMATIONS CONFIDENTIELLES. A la fin de cet Accord ou sur demande de la Partie divulgatrice, la Partie receptrice sengage a : (a) Retourner immediatement toutes les copies physiques et numeriques des Informations Confidentielles, (b) Supprimer ou detruire toutes les copies electroniques, y compris les sauvegardes, et fournir une attestation de cette destruction. 8. NON-COMPETITION ET NON-SOLLICITATION. Pour la duree de cet Accord et pendant deux (2) ans apres, la Partie receptrice accepte de ne pas : (a) Developper ou commercialiser un produit ou service similaire ou concurrent a MyWay, (b) Solliciter des employes, sous-traitants ou partenaires daffaires de la Partie divulgatrice pour des projets concurrents. 9. DROITS DAUDIT. La Partie divulgatrice se reserve le droit de verifier la conformite de la Partie receptrice avec cet Accord, sur preavis raisonnable et pendant les heures ouvrables normales. 10. RECOURS EN CAS DE VIOLATION. . En cas de violation de cet Accord, la Partie divulgatrice est en droit de demander des mesures equitables, y compris des injonctions, ainsi que des dommages-interets ou autres recours legaux. 11. LIMITATION DE RESPONSABILITE. La Partie divulgatrice nest pas responsable des dommages decoulant de lutilisation ou de la dependance de la Partie receptrice aux Informations Confidentielles, sauf en cas de negligence grave ou de faute intentionnelle. 12. DROIT APPLICABLE ET RESOLUTION DES CONFLITS. Cet Accord est regi par les lois du Canada. Tout litige sera dabord regle par negociation de bonne foi. Si aucun accord nest trouve, le litige sera soumis a larbitrage selon les regles de lAssociation canadienne darbitrage. 13. AMENDEMENTS ET RENONCIATION. Tout amendement doit etre fait par ecrit et signe par les deux Parties. La renonciation a toute disposition ne constitue pas une renonciation a toute autre disposition. 14. DIVISIBILITE. Si une disposition de cet Accord est jugee invalide, les autres dispositions restent en vigueur. 15. ACCORD COMPLET. Cet Accord constitue lintegralite de lentente entre les Parties et remplace toutes discussions et accords anterieurs. 16. PROPRIETE DES PRODUITS DE TRAVAIL. (a) Cession de la Propriete Intellectuelle : Toute invention, design, concept ou prototype cree par la Partie receptrice dans le cadre du projet MyWay sera la propriete exclusive de Fallcorp Technologies INC. (b) Cession Automatique : La Partie receptrice accepte que tous les droits dans le Produit de Travail soient automatiquement cedes a Fallcorp Technologies INC. (c) Renonciation aux Droits Moraux : La Partie receptrice renonce aux droits moraux dans le Produit de Travail, permettant a Fallcorp Technologies INC de lutiliser sans restriction. (d) Assistance Supplementaire : La Partie receptrice accepte de signer tous les documents supplementaires raisonnablement demandes pour parfaire la propriete de Fallcorp Technologies INC. SIGNATURES : Partie Divulgatrice Nom : Fallcorp Technologies INC Par : Malick Fall ______ . Titre : CEO __ Date : fifteen novembre two thousand and twenty-four _____________ Partie Receptrice Nom : Lisa-Marie Merten Par : __________________________ Titre : Product Marketing Manager __ Date : _________________________ .
+Recognized speech: yes
+[2024-11-27 03:35:19 +0000] [188293] [INFO] Shutting down: Master
+[2024-11-27 03:43:14 +0000] [189352] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 03:43:14 +0000] [189352] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 03:43:14 +0000] [189352] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 03:43:15 +0000] [189352] [ERROR] Connection in use: ('127.0.0.1', 5000)
+[2024-11-27 03:43:15 +0000] [189352] [ERROR] connection to ('127.0.0.1', 5000) failed: [Errno 98] Address already in use
+[2024-11-27 03:43:16 +0000] [189352] [INFO] Listening at: http://127.0.0.1:5000 (189352)
+[2024-11-27 03:43:16 +0000] [189352] [INFO] Using worker: sync
+[2024-11-27 03:43:16 +0000] [189353] [INFO] Booting worker with pid: 189353
+[2024-11-27 03:43:34 +0000] [189353] [ERROR] Exception in worker process
+Traceback (most recent call last):
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/arbiter.py", line 608, in spawn_worker
+    worker.init_process()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 135, in init_process
+    self.load_wsgi()
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/workers/base.py", line 147, in load_wsgi
+    self.wsgi = self.app.wsgi()
+                ^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/base.py", line 66, in wsgi
+    self.callable = self.load()
+                    ^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 57, in load
+    return self.load_wsgiapp()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/app/wsgiapp.py", line 47, in load_wsgiapp
+    return util.import_app(self.app_uri)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/gunicorn/util.py", line 370, in import_app
+    mod = importlib.import_module(module)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/importlib/__init__.py", line 90, in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<frozen importlib._bootstrap>", line 1387, in _gcd_import
+  File "<frozen importlib._bootstrap>", line 1360, in _find_and_load
+  File "<frozen importlib._bootstrap>", line 1331, in _find_and_load_unlocked
+  File "<frozen importlib._bootstrap>", line 935, in _load_unlocked
+  File "<frozen importlib._bootstrap_external>", line 995, in exec_module
+  File "<frozen importlib._bootstrap>", line 488, in _call_with_frames_removed
+  File "/home/ubuntu/MyDocs/app.py", line 17, in <module>
+    import fitz  # PyMuPDF
+    ^^^^^^^^^^^
+  File "/home/ubuntu/p39/lib/python3.12/site-packages/fitz/__init__.py", line 1, in <module>
+    from frontend import *
+ModuleNotFoundError: No module named 'frontend'
+[2024-11-27 03:43:34 +0000] [189353] [INFO] Worker exiting (pid: 189353)
+[2024-11-27 03:43:35 +0000] [189352] [ERROR] Worker (pid:189353) exited with code 3
+[2024-11-27 03:43:35 +0000] [189352] [ERROR] Shutting down: Master
+[2024-11-27 03:43:35 +0000] [189352] [ERROR] Reason: Worker failed to boot.
+[nltk_data] Downloading package punkt to /home/ubuntu/nltk_data...
+[nltk_data]   Package punkt is already up-to-date!
+INFO:TTS.utils.manage:tts_models/en/vctk/vits is already downloaded.
+INFO:TTS.tts.models:Using model: vits
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 22050
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: 0
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: None
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: None
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: None
+INFO:TTS.utils.audio.processor: | signal_norm: None
+INFO:TTS.utils.audio.processor: | symmetric_norm: None
+INFO:TTS.utils.audio.processor: | mel_fmin: 0
+INFO:TTS.utils.audio.processor: | mel_fmax: None
+INFO:TTS.utils.audio.processor: | pitch_fmin: None
+INFO:TTS.utils.audio.processor: | pitch_fmax: None
+INFO:TTS.utils.audio.processor: | spec_gain: 20.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 1.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: False
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: None
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.vits:Initialization of speaker-embedding layers.
+INFO:TTS.utils.manage:tts_models/fr/mai/tacotron2-DDC is already downloaded.
+INFO:TTS.utils.manage:vocoder_models/universal/libri-tts/fullband-melgan is already downloaded.
+INFO:TTS.tts.models:Using model: Tacotron2
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 16000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 20
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/tts_models--fr--mai--tacotron2-DDC/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.tts.models.base_tacotron:Model's reduction rate `r` is set to: 1
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Vocoder model: fullband_melgan
+INFO:TTS.utils.audio.processor:Setting up Audio Processor...
+INFO:TTS.utils.audio.processor: | sample_rate: 24000
+INFO:TTS.utils.audio.processor: | resample: False
+INFO:TTS.utils.audio.processor: | num_mels: 80
+INFO:TTS.utils.audio.processor: | log_func: np.log10
+INFO:TTS.utils.audio.processor: | min_level_db: -100
+INFO:TTS.utils.audio.processor: | frame_shift_ms: None
+INFO:TTS.utils.audio.processor: | frame_length_ms: None
+INFO:TTS.utils.audio.processor: | ref_level_db: 0
+INFO:TTS.utils.audio.processor: | fft_size: 1024
+INFO:TTS.utils.audio.processor: | power: 1.5
+INFO:TTS.utils.audio.processor: | preemphasis: 0.0
+INFO:TTS.utils.audio.processor: | griffin_lim_iters: 60
+INFO:TTS.utils.audio.processor: | signal_norm: True
+INFO:TTS.utils.audio.processor: | symmetric_norm: True
+INFO:TTS.utils.audio.processor: | mel_fmin: 50.0
+INFO:TTS.utils.audio.processor: | mel_fmax: 7600.0
+INFO:TTS.utils.audio.processor: | pitch_fmin: 0.0
+INFO:TTS.utils.audio.processor: | pitch_fmax: 640.0
+INFO:TTS.utils.audio.processor: | spec_gain: 1.0
+INFO:TTS.utils.audio.processor: | stft_pad_mode: reflect
+INFO:TTS.utils.audio.processor: | max_norm: 4.0
+INFO:TTS.utils.audio.processor: | clip_norm: True
+INFO:TTS.utils.audio.processor: | do_trim_silence: True
+INFO:TTS.utils.audio.processor: | trim_db: 60
+INFO:TTS.utils.audio.processor: | do_sound_norm: False
+INFO:TTS.utils.audio.processor: | do_amp_to_db_linear: True
+INFO:TTS.utils.audio.processor: | do_amp_to_db_mel: True
+INFO:TTS.utils.audio.processor: | do_rms_norm: False
+INFO:TTS.utils.audio.processor: | db_level: None
+INFO:TTS.utils.audio.processor: | stats_path: /home/ubuntu/.local/share/tts/vocoder_models--universal--libri-tts--fullband-melgan/scale_stats.npy
+INFO:TTS.utils.audio.processor: | base: 10
+INFO:TTS.utils.audio.processor: | hop_length: 256
+INFO:TTS.utils.audio.processor: | win_length: 1024
+INFO:TTS.vocoder.models:Generator model: fullband_melgan_generator
+INFO:TTS.vocoder.models:Discriminator model: melgan_multiscale_discriminator
+Some weights of Wav2Vec2ForCTC were not initialized from the model checkpoint at facebook/wav2vec2-base-960h and are newly initialized: ['wav2vec2.masked_spec_embed']
+You should probably TRAIN this model on a down-stream task to be able to use it for predictions and inference.
+[2024-11-27 04:51:05 +0000] [190062] [INFO] Starting gunicorn 23.0.0
+[2024-11-27 04:51:05 +0000] [190062] [INFO] Listening at: http://127.0.0.1:5000 (190062)
+[2024-11-27 04:51:05 +0000] [190062] [INFO] Using worker: sync
+[2024-11-27 04:51:05 +0000] [190083] [INFO] Booting worker with pid: 190083
+[2024-11-27 04:51:05 +0000] [190084] [INFO] Booting worker with pid: 190084
+[2024-11-27 04:51:06 +0000] [190085] [INFO] Booting worker with pid: 190085
+[2024-11-27 04:51:06 +0000] [190086] [INFO] Booting worker with pid: 190086
+[2024-11-27 04:51:06 +0000] [190087] [INFO] Booting worker with pid: 190087
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['Do you wish to sign the document?', "Say 'Yes' to confirm or 'No' to cancel."]
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+Detected language: fr
+Text to convert to audio: FALLCORP TECHNOLOGIES INC. five thousand, eight hundred and ninety-one Av Decelles Montreal, Quebec (438) 765-0908 fallcorpsn at gmail.com www.fallcorpindustries.com ACCORD DE CONFIDENTIALITE (NDA) Date : fifteen novembre two thousand and twenty-four Partie divulgatrice : Fallcorp Technologies INC, five thousand, eight hundred and ninety-one Av Decelles, Montreal, Canada Partie receptrice : Lisa-Marie Merten, one hundred and twelve Boul de lUnion, Saint-Lambert, QC, J4R 2M6, Canada Cet Accord de Confidentialite (ci-apres denomme lAccord) est conclu entre la Partie divulgatrice et la Partie receptrice (collectivement, les Parties) afin de proteger la confidentialite des informations echangees dans le cadre du projet MyWay. 1. OBJET. Lobjet de cet Accord est de proteger les Informations Confidentielles et la propriete intellectuelle divulguees par la Partie divulgatrice dans le cadre du developpement, de lamelioration, de la commercialisation et de la gestion marketing du projet MyWay. Cet Accord etablit les obligations des Parties pour maintenir la confidentialite et proteger les informations proprietaires. 2. DEFINITION DES INFORMATIONS CONFIDENTIELLES. Aux fins de cet Accord, Informations Confidentielles comprend, sans sy limiter : Les strategies commerciales, les plans, previsions et budgets, Les donnees techniques, inventions, secrets commerciaux et savoir-faire, Les conceptions de produits, prototypes, schemas et donnees de recherche, Les plans marketing, analyses de marche, donnees client et listes de fournisseurs, Les donnees financieres, contrats et accords, Toute autre information sensible ou proprietaire identifiee comme confidentielle par la Partie divulgatrice. Les Informations Confidentielles nincluent pas : (a) Les informations rendues publiques sans faute de la Partie receptrice, (b) Les informations developpees independamment par la Partie receptrice sans reference aux Informations Confidentielles, (c) Les informations obtenues legalement dun tiers sans obligation de confidentialite. 3. OBLIGATIONS DE LA PARTIE RECEPTRICE. La Partie receptrice accepte de : (a) Garder toutes les Informations Confidentielles strictement confidentielles et de les utiliser uniquement dans le cadre du projet MyWay, (b) Restreindre lacces aux Informations Confidentielles aux employes, agents ou sous-traitants ayant un besoin legitime et soumis a des obligations de confidentialite similaires, (c) Ne pas dupliquer, copier ou reproduire les Informations Confidentielles sans consentement ecrit . prealable, (d) Informer immediatement la Partie divulgatrice de tout acces non autorise ou divulgation des Informations Confidentielles, (e) Prendre des mesures raisonnables pour proteger la confidentialite et lintegrite des Informations Confidentielles. 4. DIVULGATIONS PERMISES. La Partie receptrice peut divulguer les Informations Confidentielles uniquement : (a) Pour se conformer aux lois, reglements ou ordonnances judiciaires, sous reserve de notification ecrite rapide a la Partie divulgatrice, (b) A ses avocats, comptables ou conseillers financiers, a des fins legitimes, sous reserve dobligations de confidentialite. 5. PROPRIETE DES INFORMATIONS CONFIDENTIELLES. Toutes les Informations Confidentielles et les droits de propriete intellectuelle associes restent la propriete exclusive de la Partie divulgatrice. Rien dans cet Accord naccorde a la Partie receptrice de droits ou dinterets dans les Informations Confidentielles, sauf autorisation expresse. 6. DUREE ET SURVIE. Cet Accord prend effet a la date de signature par les deux Parties et reste en vigueur pour une periode de cinq (5) ans. Les obligations de confidentialite survivront a la resiliation de cet Accord pour une periode supplementaire de cinq (5) ans. 7. RETOUR OU DESTRUCTION DES INFORMATIONS CONFIDENTIELLES. A la fin de cet Accord ou sur demande de la Partie divulgatrice, la Partie receptrice sengage a : (a) Retourner immediatement toutes les copies physiques et numeriques des Informations Confidentielles, (b) Supprimer ou detruire toutes les copies electroniques, y compris les sauvegardes, et fournir une attestation de cette destruction. 8. NON-COMPETITION ET NON-SOLLICITATION. Pour la duree de cet Accord et pendant deux (2) ans apres, la Partie receptrice accepte de ne pas : (a) Developper ou commercialiser un produit ou service similaire ou concurrent a MyWay, (b) Solliciter des employes, sous-traitants ou partenaires daffaires de la Partie divulgatrice pour des projets concurrents. 9. DROITS DAUDIT. La Partie divulgatrice se reserve le droit de verifier la conformite de la Partie receptrice avec cet Accord, sur preavis raisonnable et pendant les heures ouvrables normales. 10. RECOURS EN CAS DE VIOLATION. . En cas de violation de cet Accord, la Partie divulgatrice est en droit de demander des mesures equitables, y compris des injonctions, ainsi que des dommages-interets ou autres recours legaux. 11. LIMITATION DE RESPONSABILITE. La Partie divulgatrice nest pas responsable des dommages decoulant de lutilisation ou de la dependance de la Partie receptrice aux Informations Confidentielles, sauf en cas de negligence grave ou de faute intentionnelle. 12. DROIT APPLICABLE ET RESOLUTION DES CONFLITS. Cet Accord est regi par les lois du Canada. Tout litige sera dabord regle par negociation de bonne foi. Si aucun accord nest trouve, le litige sera soumis a larbitrage selon les regles de lAssociation canadienne darbitrage. 13. AMENDEMENTS ET RENONCIATION. Tout amendement doit etre fait par ecrit et signe par les deux Parties. La renonciation a toute disposition ne constitue pas une renonciation a toute autre disposition. 14. DIVISIBILITE. Si une disposition de cet Accord est jugee invalide, les autres dispositions restent en vigueur. 15. ACCORD COMPLET. Cet Accord constitue lintegralite de lentente entre les Parties et remplace toutes discussions et accords anterieurs. 16. PROPRIETE DES PRODUITS DE TRAVAIL. (a) Cession de la Propriete Intellectuelle : Toute invention, design, concept ou prototype cree par la Partie receptrice dans le cadre du projet MyWay sera la propriete exclusive de Fallcorp Technologies INC. (b) Cession Automatique : La Partie receptrice accepte que tous les droits dans le Produit de Travail soient automatiquement cedes a Fallcorp Technologies INC. (c) Renonciation aux Droits Moraux : La Partie receptrice renonce aux droits moraux dans le Produit de Travail, permettant a Fallcorp Technologies INC de lutiliser sans restriction. (d) Assistance Supplementaire : La Partie receptrice accepte de signer tous les documents supplementaires raisonnablement demandes pour parfaire la propriete de Fallcorp Technologies INC. SIGNATURES : Partie Divulgatrice Nom : Fallcorp Technologies INC Par : Malick Fall ______ . Titre : CEO __ Date : fifteen novembre two thousand and twenty-four _____________ Partie Receptrice Nom : Lisa-Marie Merten Par : __________________________ Titre : Product Marketing Manager __ Date : _________________________ .
+INFO:TTS.utils.synthesizer:Text split into sentences.
+INFO:TTS.utils.synthesizer:Input: ['FALLCORP TECHNOLOGIES INC. five thousand, eight hundred and ninety-one Av Decelles Montreal, Quebec (438) 765-0908 fallcorpsn at gmail.com www.fallcorpindustries.com ACCORD DE CONFIDENTIALITE (NDA) Date : fifteen novembre two thousand and twenty-four Partie divulgatrice : Fallcorp Technologies INC, five thousand, eight hundred and ninety-one Av Decelles, Montreal, Canada Partie receptrice : Lisa-Marie Merten, one hundred and twelve Boul de lUnion, Saint-Lambert, QC, J4R 2M6, Canada Cet Accord de Confidentialite (ci-apres denomme lAccord) est conclu entre la Partie divulgatrice et la Partie receptrice (collectivement, les Parties) afin de proteger la confidentialite des informations echangees dans le cadre du projet MyWay.', '1.', 'OBJET.', 'Lobjet de cet Accord est de proteger les Informations Confidentielles et la propriete intellectuelle divulguees par la Partie divulgatrice dans le cadre du developpement, de lamelioration, de la commercialisation et de la gestion marketing du projet MyWay.']
+WARNING:TTS.tts.utils.text.tokenizer:falkɔʁ tɛknɔlɔʒi ɛ̃. fiv tauzɑ̃, ɛɡ œ̃dʁe ɑ̃d ninɛti ɔn av dəsɛl mɔ̃tʁal, kəbɛk fuʁ œ̃dʁe tiʁti ɛɡ səvɑ̃ œ̃dʁe siksti fivminy nin œ̃dʁe ɛɡ falkɔʁ at ɡmaj.kɔm waw.falkɔʁpɛ̃dystʁi.kɔm akɔʁ də kɔ̃fidɑ̃sjalit nda dat , fiftn nɔvɑ̃bʁ two tauzɑ̃ ɑ̃d twɛnti fuʁ paʁti divylɡatʁis , falkɔʁ tɛknɔlɔʒi ɛ̃, fiv tauzɑ̃, ɛɡ œ̃dʁe ɑ̃d ninɛti ɔn av dəsɛl, mɔ̃tʁal, kanada paʁti ʁəsɛptʁis , liza maʁi mɛʁt, ɔn œ̃dʁe ɑ̃d twɛlv bul də lynjɔ̃, sɛ̃ lɑ̃bɛʁ, k, ʒfuʁ twɔmsiks, kanada sɛt akɔʁ də kɔ̃fidɑ̃sjalit si apʁ dənɔm lakɔʁ ɛ kɔ̃kly ɑ̃tʁ la paʁti divylɡatʁis e la paʁti ʁəsɛptʁis kɔlɛktivmɑ̃, le paʁti afɛ̃ də pʁɔtəʒe la kɔ̃fidɑ̃sjalit dez ɛ̃fɔʁmasjɔ̃ eʃɑ̃ʒ dɑ̃ lə kadʁ dy pʁɔʒɛ miwɛ.
+WARNING:TTS.tts.utils.text.tokenizer:Character '̃' not found in the vocabulary. Discarding it.
+[2024-11-27 04:56:11 +0000] [190085] [INFO] Worker exiting (pid: 190085)
+[2024-11-27 04:56:11 +0000] [190062] [INFO] Handling signal: term
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+Extracted text: FALLCORP TECHNOLOGIES INC. five thousand, eight hundred and ninety-one Av Decelles Montreal, Quebec (438) 765-0908 fallcorpsn at gmail.com www.fallcorpindustries.com ACCORD DE CONFIDENTIALITE (NDA) Date : fifteen novembre two thousand and twenty-four Partie divulgatrice : Fallcorp Technologies INC, five thousand, eight hundred and ninety-one Av Decelles, Montreal, Canada Partie receptrice : Lisa-Marie Merten, one hundred and twelve Boul de lUnion, Saint-Lambert, QC, J4R 2M6, Canada Cet Accord de Confidentialite (ci-apres denomme lAccord) est conclu entre la Partie divulgatrice et la Partie receptrice (collectivement, les Parties) afin de proteger la confidentialite des informations echangees dans le cadre du projet MyWay. 1. OBJET. Lobjet de cet Accord est de proteger les Informations Confidentielles et la propriete intellectuelle divulguees par la Partie divulgatrice dans le cadre du developpement, de lamelioration, de la commercialisation et de la gestion marketing du projet MyWay. Cet Accord etablit les obligations des Parties pour maintenir la confidentialite et proteger les informations proprietaires. 2. DEFINITION DES INFORMATIONS CONFIDENTIELLES. Aux fins de cet Accord, Informations Confidentielles comprend, sans sy limiter : Les strategies commerciales, les plans, previsions et budgets, Les donnees techniques, inventions, secrets commerciaux et savoir-faire, Les conceptions de produits, prototypes, schemas et donnees de recherche, Les plans marketing, analyses de marche, donnees client et listes de fournisseurs, Les donnees financieres, contrats et accords, Toute autre information sensible ou proprietaire identifiee comme confidentielle par la Partie divulgatrice. Les Informations Confidentielles nincluent pas : (a) Les informations rendues publiques sans faute de la Partie receptrice, (b) Les informations developpees independamment par la Partie receptrice sans reference aux Informations Confidentielles, (c) Les informations obtenues legalement dun tiers sans obligation de confidentialite. 3. OBLIGATIONS DE LA PARTIE RECEPTRICE. La Partie receptrice accepte de : (a) Garder toutes les Informations Confidentielles strictement confidentielles et de les utiliser uniquement dans le cadre du projet MyWay, (b) Restreindre lacces aux Informations Confidentielles aux employes, agents ou sous-traitants ayant un besoin legitime et soumis a des obligations de confidentialite similaires, (c) Ne pas dupliquer, copier ou reproduire les Informations Confidentielles sans consentement ecrit . prealable, (d) Informer immediatement la Partie divulgatrice de tout acces non autorise ou divulgation des Informations Confidentielles, (e) Prendre des mesures raisonnables pour proteger la confidentialite et lintegrite des Informations Confidentielles. 4. DIVULGATIONS PERMISES. La Partie receptrice peut divulguer les Informations Confidentielles uniquement : (a) Pour se conformer aux lois, reglements ou ordonnances judiciaires, sous reserve de notification ecrite rapide a la Partie divulgatrice, (b) A ses avocats, comptables ou conseillers financiers, a des fins legitimes, sous reserve dobligations de confidentialite. 5. PROPRIETE DES INFORMATIONS CONFIDENTIELLES. Toutes les Informations Confidentielles et les droits de propriete intellectuelle associes restent la propriete exclusive de la Partie divulgatrice. Rien dans cet Accord naccorde a la Partie receptrice de droits ou dinterets dans les Informations Confidentielles, sauf autorisation expresse. 6. DUREE ET SURVIE. Cet Accord prend effet a la date de signature par les deux Parties et reste en vigueur pour une periode de cinq (5) ans. Les obligations de confidentialite survivront a la resiliation de cet Accord pour une periode supplementaire de cinq (5) ans. 7. RETOUR OU DESTRUCTION DES INFORMATIONS CONFIDENTIELLES. A la fin de cet Accord ou sur demande de la Partie divulgatrice, la Partie receptrice sengage a : (a) Retourner immediatement toutes les copies physiques et numeriques des Informations Confidentielles, (b) Supprimer ou detruire toutes les copies electroniques, y compris les sauvegardes, et fournir une attestation de cette destruction. 8. NON-COMPETITION ET NON-SOLLICITATION. Pour la duree de cet Accord et pendant deux (2) ans apres, la Partie receptrice accepte de ne pas : (a) Developper ou commercialiser un produit ou service similaire ou concurrent a MyWay, (b) Solliciter des employes, sous-traitants ou partenaires daffaires de la Partie divulgatrice pour des projets concurrents. 9. DROITS DAUDIT. La Partie divulgatrice se reserve le droit de verifier la conformite de la Partie receptrice avec cet Accord, sur preavis raisonnable et pendant les heures ouvrables normales. 10. RECOURS EN CAS DE VIOLATION. . En cas de violation de cet Accord, la Partie divulgatrice est en droit de demander des mesures equitables, y compris des injonctions, ainsi que des dommages-interets ou autres recours legaux. 11. LIMITATION DE RESPONSABILITE. La Partie divulgatrice nest pas responsable des dommages decoulant de lutilisation ou de la dependance de la Partie receptrice aux Informations Confidentielles, sauf en cas de negligence grave ou de faute intentionnelle. 12. DROIT APPLICABLE ET RESOLUTION DES CONFLITS. Cet Accord est regi par les lois du Canada. Tout litige sera dabord regle par negociation de bonne foi. Si aucun accord nest trouve, le litige sera soumis a larbitrage selon les regles de lAssociation canadienne darbitrage. 13. AMENDEMENTS ET RENONCIATION. Tout amendement doit etre fait par ecrit et signe par les deux Parties. La renonciation a toute disposition ne constitue pas une renonciation a toute autre disposition. 14. DIVISIBILITE. Si une disposition de cet Accord est jugee invalide, les autres dispositions restent en vigueur. 15. ACCORD COMPLET. Cet Accord constitue lintegralite de lentente entre les Parties et remplace toutes discussions et accords anterieurs. 16. PROPRIETE DES PRODUITS DE TRAVAIL. (a) Cession de la Propriete Intellectuelle : Toute invention, design, concept ou prototype cree par la Partie receptrice dans le cadre du projet MyWay sera la propriete exclusive de Fallcorp Technologies INC. (b) Cession Automatique : La Partie receptrice accepte que tous les droits dans le Produit de Travail soient automatiquement cedes a Fallcorp Technologies INC. (c) Renonciation aux Droits Moraux : La Partie receptrice renonce aux droits moraux dans le Produit de Travail, permettant a Fallcorp Technologies INC de lutiliser sans restriction. (d) Assistance Supplementaire : La Partie receptrice accepte de signer tous les documents supplementaires raisonnablement demandes pour parfaire la propriete de Fallcorp Technologies INC. SIGNATURES : Partie Divulgatrice Nom : Fallcorp Technologies INC Par : Malick Fall ______ . Titre : CEO __ Date : fifteen novembre two thousand and twenty-four _____________ Partie Receptrice Nom : Lisa-Marie Merten Par : __________________________ Titre : Product Marketing Manager __ Date : _________________________ .
+[2024-11-27 04:56:11 +0000] [190086] [INFO] Worker exiting (pid: 190086)
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+[2024-11-27 04:56:11 +0000] [190087] [INFO] Worker exiting (pid: 190087)
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
+[2024-11-27 04:56:41 +0000] [190062] [INFO] Shutting down: Master
+Loading TTS models...
+Loading image captioning model...
+Image captioning model loaded.
+Loading speech recognition model...
+Speech recognition model loaded.
+Loading summarization model...
+Summarization model loaded.
+Notification audios generated or already exist.
