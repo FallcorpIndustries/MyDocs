@@ -1,18 +1,169 @@
 <!-- templates/help.html -->
-
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Help</h2>
-<p>Welcome to the Document Reader and Image Describer!</p>
-<h4>How to Use:</h4>
-<ul>
-    <li><strong>Upload Document:</strong> Click on the "Choose File" button under "Upload Document" to select a .txt, .pdf, or .docx file. Then click "Upload Document" to process it.</li>
-    <li><strong>Upload Image:</strong> Click on the "Choose File" button under "Upload Image" to select an image file. Supported formats are .png, .jpg, .jpeg, .bmp, and .gif. Then click "Upload Image" to process it.</li>
-    <li><strong>History:</strong> All your uploaded files and generated summaries/audio will appear in the History table.</li>
-    <li><strong>Summarize Document:</strong> Click the "Summarize" button next to a document in the History to generate a summary.</li>
-    <li><strong>Generate Audio:</strong> Click the "Generate Audio" button next to a document or summary to convert text to speech.</li>
-    <li><strong>Play Summary:</strong> If a summary has audio, click "Play Summary" to listen to it.</li>
-    <li><strong>Delete:</strong> Click "Delete" to remove an item from the history.</li>
-</ul>
+<main role="main" aria-labelledby="help-heading">
+    <h2 id="help-heading">Help</h2>
+    <section aria-labelledby="introduction-heading">
+        <h3 id="introduction-heading">Welcome to the Document Reader and Image Describer!</h3>
+        <p>
+            This application allows you to upload documents and images, generate summaries, and convert text to speech. Below is a guide on how to use the features available.
+        </p>
+    </section>
+
+    <section aria-labelledby="how-to-use-heading">
+        <h3 id="how-to-use-heading">How to Use</h3>
+        <ol>
+            <li>
+                <strong>Upload Document:</strong>
+                <p>
+                    Use the "Choose File" button under "Upload Document" to select a <code>.txt</code>, <code>.pdf</code>, or <code>.docx</code> file. After selecting, press "Upload Document" to process the file.
+                </p>
+            </li>
+            <li>
+                <strong>Upload Image:</strong>
+                <p>
+                    Use the "Choose File" button under "Upload Image" to select an image file. Supported formats include <code>.png</code>, <code>.jpg</code>, <code>.jpeg</code>, <code>.bmp</code>, and <code>.gif</code>. After selecting, press "Upload Image" to process the image.
+                </p>
+            </li>
+            <li>
+                <strong>History:</strong>
+                <p>
+                    All your uploaded files, along with generated summaries and audio files, will appear in the History table. Navigate through your history to access these items.
+                </p>
+            </li>
+            <li>
+                <strong>Summarize Document:</strong>
+                <p>
+                    In the History table, locate the document you wish to summarize and press the "Summarize" button next to it. The summary will be generated and added to your history.
+                </p>
+            </li>
+            <li>
+                <strong>Generate Audio:</strong>
+                <p>
+                    To convert text to speech, press the "Generate Audio" button next to a document or its summary in the History table. The audio file will be created and listed alongside the text.
+                </p>
+            </li>
+            <li>
+                <strong>Play Summary:</strong>
+                <p>
+                    If a summary has an associated audio file, press "Play Summary" to listen to it. Ensure your speakers are on and at an appropriate volume.
+                </p>
+            </li>
+            <li>
+                <strong>Delete:</strong>
+                <p>
+                    To remove an item from your history, press the "Delete" button corresponding to that item. Confirm the deletion when prompted.
+                </p>
+            </li>
+        </ol>
+    </section>
+
+    <section aria-labelledby="voice-commands-heading">
+        <h3 id="voice-commands-heading">Voice Commands</h3>
+        <p>
+            For a hands-free experience, you can use voice commands to navigate and interact with your documents. Here are the available commands:
+        </p>
+        <ul>
+            <li><strong>OCR (Optical Character Recognition):</strong> Extract text from a specific page within a document.
+                <ul>
+                    <li><em>English Examples:</em> "Perform OCR on page 3.", "Extract text from page five."</li>
+                    <li><em>French Examples:</em> "Effectuer l'OCR sur la page 3.", "Extraire le texte de la page cinq."</li>
+                </ul>
+            </li>
+            <li><strong>Navigate to Heading:</strong> Jump to a specific heading in the document.
+                <ul>
+                    <li><em>English Examples:</em> "Go to heading 2.", "Jump to heading five."</li>
+                    <li><em>French Examples:</em> "Aller à l'entête 2.", "Sautez à l'entête cinq."</li>
+                </ul>
+            </li>
+            <li><strong>Summarize Document or Section:</strong> Generate a summary of the entire document or a specific section.
+                <ul>
+                    <li><em>English Examples:</em> "Summarize the document.", "Provide a summary of the introduction."</li>
+                    <li><em>French Examples:</em> "Résumer le document.", "Fournir un résumé de l'introduction."</li>
+                </ul>
+            </li>
+            <li><strong>Find Mentions or References:</strong> Locate mentions of specific keywords or topics.
+                <ul>
+                    <li><em>English Examples:</em> "Find mentions of artificial intelligence.", "Search for references to climate change."</li>
+                    <li><em>French Examples:</em> "Trouver les mentions de l'intelligence artificielle.", "Rechercher les références au changement climatique."</li>
+                </ul>
+            </li>
+            <li><strong>Compare Documents:</strong> Compare the current document with another to identify differences.
+                <ul>
+                    <li><em>English Examples:</em> "Compare with document 2.", "Find differences between document one and document three."</li>
+                    <li><em>French Examples:</em> "Comparer avec le document 2.", "Trouver les différences entre le document un et le document trois."</li>
+                </ul>
+            </li>
+            <li><strong>Read Bullet Points:</strong> Retrieve and read all bullet points or list items.
+                <ul>
+                    <li><em>English Examples:</em> "Read the bullet points.", "List all bullet items."</li>
+                    <li><em>French Examples:</em> "Lire les points de liste.", "Lister tous les éléments de la liste."</li>
+                </ul>
+            </li>
+            <li><strong>Skip References:</strong> Skip over reference sections to focus on the main content.
+                <ul>
+                    <li><em>English Examples:</em> "Skip all references.", "Ignore the references section."</li>
+                    <li><em>French Examples:</em> "Ignorer toutes les références.", "Ignorer la section des références."</li>
+                </ul>
+            </li>
+            <li><strong>Author Information:</strong> Retrieve information about the author of the document.
+                <ul>
+                    <li><em>English Examples:</em> "Who is the author?", "Tell me about the author."</li>
+                    <li><em>French Examples:</em> "Qui est l'auteur ?", "Parlez-moi de l'auteur."</li>
+                </ul>
+            </li>
+            <li><strong>Read the Title:</strong> Retrieve and read the title of the document.
+                <ul>
+                    <li><em>English Examples:</em> "Read the title.", "What is the name of the document?"</li>
+                    <li><em>French Examples:</em> "Lire le titre.", "Quel est le nom du document ?"</li>
+                </ul>
+            </li>
+        </ul>
+        <p>
+            If a command requires additional information, the system will prompt you accordingly. For example:
+        </p>
+        <ul>
+            <li>
+                <strong>Prompt for Missing Information:</strong>
+                <ul>
+                    <li><em>English:</em> "Please specify the page number for OCR."</li>
+                    <li><em>French:</em> "Veuillez préciser le numéro de page pour l'OCR."</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Error Handling:</strong>
+                <ul>
+                    <li><em>English:</em> "Invalid page number."</li>
+                    <li><em>French:</em> "Numéro de page invalide."</li>
+                </ul>
+            </li>
+            <li>
+                <strong>Unrecognized Commands:</strong>
+                <ul>
+                    <li><em>English:</em> "Sorry, I didn't understand the command."</li>
+                    <li><em>French:</em> "Désolé, je n'ai pas compris la commande."</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <section aria-labelledby="additional-resources-heading">
+        <h3 id="additional-resources-heading">Additional Resources</h3>
+        <p>
+            For further assistance, please refer to the following resources:
+        </p>
+        <ul>
+            <li>
+                <strong>Contact Support:</strong> If you encounter any issues or have suggestions, feel free to contact our support team.
+            </li>
+            <li>
+                <strong>Feedback:</strong> Provide feedback to help us improve the application by using the feedback form available in the History section.
+            </li>
+            <li>
+                <strong>Privacy Policy:</strong> Read our privacy policy to understand how your data is handled and protected.
+            </li>
+        </ul>
+    </section>
+</main>
 {% endblock %}

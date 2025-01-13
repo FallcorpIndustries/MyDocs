@@ -1,0 +1,121 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2>Document Text</h2>
+    <p>{{ item.text }}</p>
+    <a href="{{ url_for('index') }}" class="btn btn-secondary">Back</a>
+    
+    <!-- NEW: Voice Command Section -->
+    <div class="mt-4">
+        <h3>Voice Commands</h3>
+        <p>You can give voice commands related to this document. For example:</p>
+        <ul>
+            <li>"Go to heading 3"</li>
+            <li>"Summarize introduction section"</li>
+            <li>"Find mentions of solar panels"</li>
+            <li>"Perform OCR on page 5"</li>
+        </ul>
+        <button id="startVoiceCommand" class="btn btn-primary">Start Voice Command</button>
+
+        <div id="statusMessage" class="mt-3" role="status" aria-live="polite"></div>
+        <audio id="responseAudio" controls style="display:none;"></audio>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const startButton = document.getElementById('startVoiceCommand');
+    const statusMessage = document.getElementById('statusMessage');
+    const responseAudio = document.getElementById('responseAudio');
+    let mediaRecorder;
+    let chunks = [];
+
+    startButton.addEventListener('click', function() {
+        // Clear previous messages
+        statusMessage.textContent = 'Listening... Please speak now.';
+        
+        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+            navigator.mediaDevices.getUserMedia({ audio: true })
+            .then(function(stream) {
+                // Setup MediaRecorder
+                let options = { mimeType: 'audio/webm' };
+                if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                    options.mimeType = 'audio/ogg';
+                    if (!MediaRecorder.isTypeSupported(options.mimeType)) {
+                        options.mimeType = '';
+                    }
+                }
+                mediaRecorder = new MediaRecorder(stream, options);
+                chunks = [];
+
+                mediaRecorder.ondataavailable = function(e) {
+                    chunks.push(e.data);
+                };
+
+                mediaRecorder.onstop = function() {
+                    // Create Blob from chunks
+                    const audioBlob = new Blob(chunks, { type: mediaRecorder.mimeType });
+                    sendVoiceCommand(audioBlob, mediaRecorder.mimeType);
+                };
+
+                mediaRecorder.start();
+                // Record for 5 seconds
+                setTimeout(function() {
+                    mediaRecorder.stop();
+                    stream.getTracks().forEach(track => track.stop());
+                    statusMessage.textContent = 'Processing your command...';
+                }, 5000);
+            })
+            .catch(function(err) {
+                console.error('Microphone access error:', err);
+                statusMessage.textContent = 'Could not access your microphone.';
+            });
+        } else {
+            console.log('getUserMedia not supported on your browser!');
+            statusMessage.textContent = 'Your browser does not support audio recording.';
+        }
+    });
+
+    function sendVoiceCommand(audioBlob, mimeType) {
+        const formData = new FormData();
+        formData.append('audio_data', audioBlob);
+        formData.append('mime_type', mimeType);
+
+        fetch("{{ url_for('process_voice_command_enhanced', item_id=item.id) }}", {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                // Play the returned audio
+                if (data.audio) {
+                    responseAudio.src = data.audio;
+                    responseAudio.style.display = 'block';
+                    responseAudio.play().catch(err => {
+                        console.log('Audio play failed:', err);
+                    });
+                }
+                statusMessage.textContent = 'Command processed successfully.';
+            } else {
+                if (data.audio) {
+                    responseAudio.src = data.audio;
+                    responseAudio.style.display = 'block';
+                    responseAudio.play().catch(err => {
+                        console.log('Audio play failed:', err);
+                    });
+                }
+                statusMessage.textContent = 'Command could not be understood or processed.';
+            }
+        })
+        .catch(err => {
+            console.log('Error sending voice command:', err);
+            statusMessage.textContent = 'An error occurred while processing your request.';
+        });
+    }
+});
+</script>
+{% endblock %}
